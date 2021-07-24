@@ -6,9 +6,11 @@
     "start": "next start",
     "type-check": "tsc --pretty --noEmit",
     "format": "prettier --write .",
-    "lint": "eslint . --ext ts --ext tsx --ext js",
+    "lint": "next lint && yarn lint-fix",
+		"lint-fix": "tsc --noEmit && eslint --quiet --fix \"**/**/*.{ts,tsx}\"",
     "test": "jest",
-    "test-all": "yarn lint && yarn type-check && yarn test"
+    "test-all": "yarn lint && yarn type-check && yarn test",
+    "update": "yarn upgrade-interactive --latest"
   },
   "lint-staged": {
     "*.@(ts|tsx)": [
@@ -24,20 +26,21 @@
   "devDependencies": {
     "@testing-library/react": "^12.0.0",
     "@types/jest": "^26.0.23",
-    "@types/node": "^16.3.1",
+    "@types/node": "^16.4.1",
     "@types/react": "^17.0.1",
-    "@typescript-eslint/eslint-plugin": "^4.14.2",
-    "@typescript-eslint/parser": "^4.14.2",
+    "@typescript-eslint/eslint-plugin": "^4.28.4",
+    "@typescript-eslint/parser": "^4.28.4",
     "babel-jest": "^27.0.2",
-    "eslint": "^7.19.0",
+    "eslint": "^7.31.0",
+    "eslint-config-next": "^11.0.1",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-react": "^7.19.0",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^27.0.4",
     "jest-watch-typeahead": "^0.6.1",
-    "lint-staged": "^11.0.0",
+    "lint-staged": "^11.1.0",
     "prettier": "^2.0.2",
-		"sass": "^1.35.2",
+    "sass": "^1.36.0",
     "typescript": "^4.1.3"
   }
 }
