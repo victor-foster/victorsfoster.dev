@@ -9,52 +9,35 @@ export const Home = (): JSX.Element => (
     </Head>
 
     <main>
-      <h1 className="title">
-        Welcome to <a href="https://nextjs.org">Next.js!</a>
-      </h1>
+		<header>
+		{/* <!-- */}
+            <figure class="logo">
+                <a href="http://victorfoster.com">Victor Foster</a>
+             </figure>
+            {/* --> */}
+            <h2>
+                <a href="http://victorfoster.com">Victor Foster</a>
+            </h2>
+             <p>
+                 UI Developer for Inspirato Labs, the technical innovation division within Inspirato whose mission is to disrupt the status quo of travel technology.
+                 {/* <!-- */}
+                    Musician & recordist with the Language of Termites, Rockets in Reverse &     Purge City.  Not a Ninja.
+                {/* --> */}
+            </p>
+            <a href="http://dev.victorfoster.com/feed">feed</a>
+            <a href="http://twitter.com/victor_foster">twitter</a>
 
-      <p className="description">
-        Get started by editing <code>pages/index.tsx</code>
-      </p>
-
-      <button
-        onClick={() => {
-          window.alert('With typescript and Jest')
-        }}
-      >
-        Test Button
-      </button>
-
-      <div className="grid">
-        <a href="https://nextjs.org/docs" className="card">
-          <h3>Documentation &rarr;</h3>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a href="https://nextjs.org/learn" className="card">
-          <h3>Learn &rarr;</h3>
-          <p>Learn about Next.js in an interactive course with quizzes!</p>
-        </a>
-
-        <a
-          href="https://github.com/vercel/next.js/tree/master/examples"
-          className="card"
-        >
-          <h3>Examples &rarr;</h3>
-          <p>Discover and deploy boilerplate example Next.js projects.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          className="card"
-        >
-          <h3>Deploy &rarr;</h3>
-          <p>Instantly deploy your Next.js site to a public URL with Vercel.</p>
-        </a>
-      </div>
+        </header>
+        <div class="content">
+            <article>
+              <h1>Title</h1>
+                <time datetime="2013-03-25" pubdate>March 25th, 2013</time>
+              <p>Hello world! <a href="google.com">Google</a></p>
+            </article>
+        </div>
     </main>
 
-    <footer>
+    {/* <footer>
       <a
         href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
         target="_blank"
@@ -63,133 +46,94 @@ export const Home = (): JSX.Element => (
         Powered by{' '}
         <Image src="/vercel.svg" alt="Vercel Logo" height={'32'} width={'64'} />
       </a>
-    </footer>
+    </footer> */}
 
     <style jsx>{`
-      .container {
-        min-height: 100vh;
-        padding: 0 0.5rem;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-      }
+      * {
+				-moz-box-sizing: border-box;
+				-webkit-box-sizing: border-box;
+				box-sizing: border-box;
+			-webkit-transition: all 0.3s ease;
+				-moz-transition:    all 0.2s ease;
+				-o-transition:      all 0.2s ease;
+			transition:      all 0.2s ease;
+		}
 
-      main {
-        padding: 5rem 0;
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-      }
+		html {
+				height: 100%;
+				margin: 0;
+				padding: 0;
+		}
 
-      footer {
-        width: 100%;
-        height: 100px;
-        border-top: 1px solid #eaeaea;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
+		body {
+		 background-color: #ffffff;
+			background-image: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#E9F2F1));
+			background-image: -webkit-linear-gradient(top, #ffffff, #E9F2F1);
+			background-image:    -moz-linear-gradient(top, #ffffff, #E9F2F1);
+			background-image:      -o-linear-gradient(top, #ffffff, #E9F2F1);
+			background-image:         linear-gradient(to bottom, #ffffff, #E9F2F1);
 
-      footer img {
-        margin-left: 0.5rem;
-      }
+			/*	http://callbackhell.com/
+				*/
+				color: #444;
+				/*font-family: MuseoSans,Georgia,"Times New Roman",Times,serif;*/
+			 font-family: "Open Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+				font-size: 0.9em;
+				height: 100%;
+				line-height: 1.6;
+				margin: 0.5em auto 0;
+				max-width: 50em;
+				overflow: auto;
+				padding: 0.3em 2em;
+		}
 
-      footer a {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
+		header {
+				float: right;
+				width: 27%;
+		}
 
-      a {
-        color: inherit;
-        text-decoration: none;
-      }
+		header h2 > a {
+				float: none;
+		}
 
-      .title a {
-        color: #0070f3;
-        text-decoration: none;
-      }
+		header p {
+				margin: 1em 0 2.2em;
+		}
 
-      .title a:hover,
-      .title a:focus,
-      .title a:active {
-        text-decoration: underline;
-      }
+		header a {
+				clear: left;
+				float: left;
+		}
 
-      .title {
-        margin: 0;
-        line-height: 1.15;
-        font-size: 4rem;
-      }
+		.logo a {
+				position: absolute;
+				text-indent: -9999px;
+		}
 
-      .title,
-      .description {
-        text-align: center;
-      }
+		.content {
+				float: left;
+				width: 73%;
+		}
 
-      .description {
-        line-height: 1.5;
-        font-size: 1.5rem;
-      }
+		h1 {
+				font-size: 2.5em;
+				line-height: 1.25em;
+		}
 
-      code {
-        background: #fafafa;
-        border-radius: 5px;
-        padding: 0.75rem;
-        font-size: 1.1rem;
-        font-family: Menlo, Monaco, Lucida Console, Liberation Mono,
-          DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
-      }
+		h1 + p {
+				font-size: 1.25em;
+				font-weight: 100;
+		}
 
-      .grid {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-wrap: wrap;
+		a {
+				color: #585B5B;
+				text-decoration: none; border-bottom:1px dotted;
+		}
 
-        max-width: 800px;
-        margin-top: 3rem;
-      }
-
-      .card {
-        margin: 1rem;
-        flex-basis: 45%;
-        padding: 1.5rem;
-        text-align: left;
-        color: inherit;
-        text-decoration: none;
-        border: 1px solid #eaeaea;
-        border-radius: 10px;
-        transition: color 0.15s ease, border-color 0.15s ease;
-      }
-
-      .card:hover,
-      .card:focus,
-      .card:active {
-        color: #0070f3;
-        border-color: #0070f3;
-      }
-
-      .card h3 {
-        margin: 0 0 1rem 0;
-        font-size: 1.5rem;
-      }
-
-      .card p {
-        margin: 0;
-        font-size: 1.25rem;
-        line-height: 1.5;
-      }
-
-      @media (max-width: 600px) {
-        .grid {
-          width: 100%;
-          flex-direction: column;
-        }
-      }
+		#posts {
+				margin: auto;
+				width: 25em;
+		}
     `}</style>
 
     <style jsx global>{`
