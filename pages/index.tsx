@@ -11,7 +11,7 @@ export const Home = (): JSX.Element => (
     <main>
 		<header>
 		{/* <!-- */}
-            <figure class="logo">
+            <figure className="logo">
                 <a href="http://victorfoster.com">Victor Foster</a>
              </figure>
             {/* --> */}
@@ -28,10 +28,10 @@ export const Home = (): JSX.Element => (
             <a href="http://twitter.com/victor_foster">twitter</a>
 
         </header>
-        <div class="content">
+        <div className="content">
             <article>
               <h1>Title</h1>
-                <time datetime="2013-03-25" pubdate>March 25th, 2013</time>
+                <time dateTime="2013-03-25" >March 25th, 2013</time>
               <p>Hello world! <a href="google.com">Google</a></p>
             </article>
         </div>

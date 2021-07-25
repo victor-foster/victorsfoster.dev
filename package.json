@@ -9,7 +9,7 @@
     "lint": "next lint && yarn lint-fix",
 		"lint-fix": "tsc --noEmit && eslint --quiet --fix \"**/**/*.{ts,tsx}\"",
     "test": "jest",
-    "test-all": "yarn lint && yarn type-check && yarn test",
+    "test-all": "lint && type-check && test",
     "update": "yarn upgrade-interactive --latest"
   },
   "lint-staged": {
