@@ -1,34 +1,56 @@
+:root {
+	--font-family: 'Open Sans', sans-serif;
+	--font-family-alt: 'Vollkorn', sans-serif;
+	--font-weight: 400;
+	--font-weight-bold: 600;
+
+	--background-color: #ffffff;
+	--gradient-color: #E9F2F1;
+	--text-color: #444;
+	--link-color:  #585B5B;
+	--nav-link-color: #69778c;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root{
+		--background-color: #00000;
+		--gradient-color: #160d0e;
+		--text-color: #bbbbbb;
+		--link-color:  #a7a4a4;
+		--nav-link-color: #968873;
+	}
+
+	.mode::after {
+			content: "dark";
+	}
+}
+
 html {
   min-height: 100%;
+	background-color: var(--background-color);
+  background-image: linear-gradient(to bottom, var(--background-color), var(--gradient-color));
 }
 
 body {
-  -webkit-font-smoothing: subpixel-antialiased;
-  font-variant: common-ligatures contextual;
-  background-color: #ffffff;
-  background-image: linear-gradient(to bottom, #ffffff, #E9F2F1);
-  color: #444;
-  font-family: 'Source Sans Pro', sans-serif;
-  font-size: 0.9em;
-  height: 100%;
-  line-height: 1.6;
-  margin: 0.5em auto 0;
-  max-width: 50em;
-  overflow: auto;
-  padding: 0.3em 2em;
+	color: var(--text-color);
+	font-family: var(--font-family);
+	font-size: 0.9em;
+	font-weight: var(--font-weight);
+	height: 100%;
+	line-height: 1.6;
+	margin: 0.5em auto 0;
+	overflow: auto;
+	padding: 0.3em 2em;
 }
 
 b,
-strong,
-h3,
-h4,
-h5,
-h6 {
-  font-family: 'Source Serif Pro', serif;
+strong {
+	font-weight: 600;
 }
-h1 {
-}
-h2 {
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: var(--font-family-alt);
+	font-weight: var(--font-weight-bold);
 }
 
 @media screen and (min-device-pixel-ratio: 1.5),
@@ -48,10 +70,10 @@ img.next-image {
 }
 
 .prose a {
-  color: #585B5B;
+  color: var(--link-color);
   text-decoration: none; border-bottom:1px dotted;
 }
 
 .nav-line .nav-link {
-  color: #69778c;
+  color: var(--nav-link-color);
 }
