@@ -16,7 +16,7 @@ export default function Nextra({ Component, pageProps }) {
           href="/feed.xml"
         />
          <link
-          href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&family=Source+Serif+Pro:wght@400;600"
+          href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Vollkorn:wght@400;600"
           rel="stylesheet"
         />
       </Head>
