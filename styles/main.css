@@ -12,13 +12,13 @@
 }
 
 @media (prefers-color-scheme: dark) {
-	:root{
+	/* :root{
 		--background-color: #00000;
 		--gradient-color: #160d0e;
 		--text-color: #bbbbbb;
 		--link-color:  #a7a4a4;
 		--nav-link-color: #968873;
-	}
+	} */
 
 	.mode::after {
 			content: "dark";
@@ -27,11 +27,12 @@
 
 html {
   min-height: 100%;
-	background-color: var(--background-color);
-  background-image: linear-gradient(to bottom, var(--background-color), var(--gradient-color));
+
 }
 
 body {
+	background-color: var(--background-color);
+  background-image: linear-gradient(to bottom, #ffffff, var(--gradient-color));
 	color: var(--text-color);
 	font-family: var(--font-family);
 	font-size: 0.9em;
@@ -67,6 +68,10 @@ details summary {
 
 img.next-image {
   margin: 0;
+}
+
+.prose {
+	color: var(--text-color);
 }
 
 .prose a {
