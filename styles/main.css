@@ -1,0 +1,57 @@
+html {
+  min-height: 100%;
+}
+
+body {
+  -webkit-font-smoothing: subpixel-antialiased;
+  font-variant: common-ligatures contextual;
+  background-color: #ffffff;
+  background-image: linear-gradient(to bottom, #ffffff, #E9F2F1);
+  color: #444;
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size: 0.9em;
+  height: 100%;
+  line-height: 1.6;
+  margin: 0.5em auto 0;
+  max-width: 50em;
+  overflow: auto;
+  padding: 0.3em 2em;
+}
+
+b,
+strong,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Source Serif Pro', serif;
+}
+h1 {
+}
+h2 {
+}
+
+@media screen and (min-device-pixel-ratio: 1.5),
+  screen and (min-resolution: 1.5dppx) {
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+details summary {
+  cursor: pointer;
+}
+
+img.next-image {
+  margin: 0;
+}
+
+.prose a {
+  color: #585B5B;
+  text-decoration: none; border-bottom:1px dotted;
+}
+
+.nav-line .nav-link {
+  color: #69778c;
+}
