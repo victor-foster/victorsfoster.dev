@@ -1,6 +1,6 @@
 const YEAR = new Date().getFullYear()
 
-export default {
+const myBlogTheme = {
   footer: (
     <small style={{ display: 'block', marginTop: '8rem' }}>
       <time>{YEAR}</time> © Victor Foster
@@ -18,4 +18,6 @@ export default {
       `}</style>
     </small>
   )
-}
+};
+
+export default myBlogTheme;

@@ -1,28 +1,43 @@
 {
-  "name": "victor-foster.com",
-  "version": "1.0.0",
-  "main": "index.js",
-  "license": "MIT",
-  "scripts": {
-    "dev": "next",
-    "build": "node ./scripts/gen-rss.js && next build",
+	"name": "victor-foster.com",
+	"version": "1.0.0",
+	"main": "index.js",
+	"license": "MIT",
+	"scripts": {
+		"analyze": "ANALYZE=true next build",
+		"dev": "next",
+		"build": "node ./scripts/gen-rss.js && next build",
 		"lint": "next lint",
-    "start": "next start",
-    "update": "yarn upgrade-interactive --latest"
-  },
-  "dependencies": {
-    "gray-matter": "^4.0.3",
-    "next": "11.0.1",
-    "nextra": "^0.4.5",
-    "nextra-theme-blog": "^0.1.6",
-    "react": "17.0.2",
-    "react-dom": "17.0.2",
-    "rss": "^1.2.2",
-    "sanitize.css": "^12.0.1"
-  },
-  "devDependencies": {
-    "eslint": "7.31.0",
-    "eslint-config-next": "11.0.1",
-    "prettier": "^2.3.2"
-  }
+		"start": "next start",
+		"update": "yarn upgrade-interactive --latest"
+	},
+	"dependencies": {
+		"gray-matter": "^4.0.3",
+		"next": "11.0.1",
+		"nextra": "^1.1.0",
+		"nextra-theme-blog": "^0.1.6",
+		"react": "17.0.2",
+		"react-dom": "17.0.2",
+		"rss": "^1.2.2"
+	},
+	"devDependencies": {
+		"@next/bundle-analyzer": "^11.0.1",
+		"@types/gtag.js": "^0.0.7",
+		"@types/react": "^17.0.16",
+		"eslint": "^7.32.0",
+		"eslint-config-next": "11.0.1",
+		"eslint-config-prettier": "^8.3.0",
+		"postcss-flexbugs-fixes": "^5.0.2",
+		"prettier": "^2.3.2",
+		"sass": "^1.37.5",
+		"stylelint": "^13.13.1",
+		"stylelint-config-idiomatic-order": "^8.1.0",
+		"stylelint-config-prettier": "^8.0.2",
+		"stylelint-config-recommended": "^5.0.0",
+		"stylelint-config-sass-guidelines": "^8.0.0",
+		"stylelint-config-standard": "^22.0.0",
+		"stylelint-order": "^4.1.0",
+		"stylelint-prettier": "^1.2.0",
+		"typescript": "^4.3.5"
+	}
 }

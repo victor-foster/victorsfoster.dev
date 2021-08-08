@@ -4,6 +4,5 @@
 	"tabWidth": 2,
 	"useTabs": true,
 	"printWidth": 120,
-	"trailingComma": "all",
-	"disableLanguages": ["html", "scss"]
+	"trailingComma": "all"
 }
