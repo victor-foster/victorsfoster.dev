@@ -7,6 +7,8 @@
 		"analyze": "ANALYZE=true next build",
 		"dev": "next",
 		"build": "node ./scripts/gen-rss.js && next build",
+		"fix-code": "prettier-eslint --write 'src/**/*.{js,jsx,ts,tsx}' ",
+		"fix-styles": "prettier-stylelint --write 'src/**/*.{css,scss}' ",
 		"lint": "next lint",
 		"start": "next start",
 		"update": "yarn upgrade-interactive --latest"
@@ -30,6 +32,7 @@
 		"eslint-config-prettier": "^8.3.0",
 		"postcss-flexbugs-fixes": "^5.0.2",
 		"prettier": "^2.3.2",
+		"prettier-stylelint": "^0.4.2",
 		"sass": "^1.38.0",
 		"stylelint": "^13.13.1",
 		"stylelint-config-idiomatic-order": "^8.1.0",
