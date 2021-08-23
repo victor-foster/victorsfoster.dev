@@ -1,21 +1,18 @@
-const YEAR = new Date().getFullYear()
+const YEAR = new Date().getFullYear();
 
-export default {
-  footer: (
-    <small style={{ display: 'block', marginTop: '8rem' }}>
-      <time>{YEAR}</time> © Victor Foster
-      {/* <a href="/feed.xml">RSS</a> */}
-      <style jsx>{`
-        a {
-          float: right;
-        }
-        @media screen and (max-width: 480px) {
-          article {
-            padding-top: 2rem;
-            padding-bottom: 4rem;
-          }
-        }
-      `}</style>
-    </small>
-  )
-}
+const myBlogTheme = {
+	footer: (
+		<footer>
+			{/* <dl>
+				<dt>Twitter</dt>
+				<dd>[@victor_foster](https://twitter.com/victor_foster)</dd>
+				<dt>GitHub</dt>
+				<dd>[@victor-foster](https://github.com/victor-foster)</dd>
+				<dt>Email</dt>
+				<dd>[victor.foster@gmail.com](mailto:victor.foster@gmail.com)</dd>
+			</dl> */}
+		</footer>
+	),
+};
+
+export default myBlogTheme;
