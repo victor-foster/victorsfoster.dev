@@ -1,5 +1,4 @@
 import Document, { Html, Head, Main, NextScript, DocumentContext } from 'next/document';
-import { GA_TRACKING_ID } from '../lib/gtag';
 
 class MyDocument extends Document {
 	static async getInitialProps(ctx: DocumentContext) {
@@ -24,7 +23,6 @@ class MyDocument extends Document {
 					<meta property='og:title' content={meta.title} />
 					<meta property='og:image' content={meta.image} />
 					<meta name='twitter:card' content='summary_large_image' />
-					{/* <meta name="twitter:site" content="@yourname" /> */}
 					<meta name='twitter:title' content={meta.title} />
 					<meta name='twitter:description' content={meta.description} />
 					<meta name='twitter:image' content={meta.image} />
@@ -32,16 +30,18 @@ class MyDocument extends Document {
 						href='https://fonts.googleapis.com/css2?family=Open+Sans&family=Vollkorn:wght@400;600&display=swap'
 						rel='stylesheet'
 					/>
-					<script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`} />
 					<script
 						dangerouslySetInnerHTML={{
 							__html: `
-								window.dataLayer = window.dataLayer || [];
-								function gtag(){dataLayer.push(arguments);}
-								gtag('js', new Date());
-								gtag('config', '${GA_TRACKING_ID}', {
-									page_path: window.location.pathname,
-								});
+								<!-- Global site tag (gtag.js) - Google Analytics -->
+								<script async src="https://www.googletagmanager.com/gtag/js?id=UA-29309617-1"></script>
+								<script>
+									window.dataLayer = window.dataLayer || [];
+									function gtag(){dataLayer.push(arguments);}
+									gtag('js', new Date());
+
+									gtag('config', 'UA-29309617-1');
+								</script>
 							`,
 						}}
 					/>
