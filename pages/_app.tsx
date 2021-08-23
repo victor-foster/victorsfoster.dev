@@ -1,3 +1,4 @@
+import 'sanitize.css';
 import 'nextra-theme-blog/style.css';
 import '../styles/main.scss';
 
@@ -21,7 +22,6 @@ function MyPersonalWebsite({ Component, pageProps }: AppProps) {
 
 	return (
 		<>
-			<Component {...pageProps} />
 			<Head>
 				<link rel='alternate' type='application/rss+xml' title='RSS' href='/feed.xml' />
 			</Head>
@@ -30,16 +30,16 @@ function MyPersonalWebsite({ Component, pageProps }: AppProps) {
 	);
 }
 
-export function reportWebVitals(metric: NextWebVitalsMetric) {
-	// Use `window.gtag` if you initialized Google Analytics as this example:
-	// https://github.com/vercel/next.js/blob/canary/examples/with-google-analytics/pages/_document.js
-	// window?.gtag('event', name, {
-	// 	event_category: label === 'web-vital' ? 'Web Vitals' : 'Next.js custom metric',
-	// 	value: Math.round(name === 'CLS' ? value * 1000 : value), // values must be integers
-	// 	event_label: id, // id unique to current page load
-	// 	non_interaction: true, // avoids affecting bounce rate.
-	// });
-	console.log(metric);
-}
+// export function reportWebVitals(metric: NextWebVitalsMetric) {
+// 	// Use `window.gtag` if you initialized Google Analytics as this example:
+// 	// https://github.com/vercel/next.js/blob/canary/examples/with-google-analytics/pages/_document.js
+// 	// window?.gtag('event', name, {
+// 	// 	event_category: label === 'web-vital' ? 'Web Vitals' : 'Next.js custom metric',
+// 	// 	value: Math.round(name === 'CLS' ? value * 1000 : value), // values must be integers
+// 	// 	event_label: id, // id unique to current page load
+// 	// 	non_interaction: true, // avoids affecting bounce rate.
+// 	// });
+// 	console.log(metric);
+// }
 
 export default MyPersonalWebsite;
