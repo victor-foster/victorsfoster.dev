@@ -13,8 +13,12 @@ function MyPersonalWebsite({ Component, pageProps }: AppProps) {
 			<Head>
 				<link rel='alternate' type='application/rss+xml' title='RSS' href='/feed.xml' />
 			</Head>
-			<Script strategy='lazyOnload' src={`https://www.googletagmanager.com/gtag/js?id=UA-29309617-1`} />
-			<Script strategy='lazyOnload'>
+			<Script
+				strategy='lazyOnload'
+				src={`https://www.googletagmanager.com/gtag/js?id=UA-29309617-1`}
+				id='google-tag-manager'
+			/>
+			<Script strategy='lazyOnload' id='google-tag-manager-data-layer'>
 				{`
 						window.dataLayer = window.dataLayer || [];
 						function gtag(){dataLayer.push(arguments);}
