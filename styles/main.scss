@@ -5,10 +5,12 @@
 	--font-weight-bold: 600;
 
 	--background-color: #ffffff;
-	--gradient-color: #e9f2f1;
-	--text-color: #444;
-	--link-color: #585b5b;
-	--nav-link-color: #69778c;
+	// hsl(214 32% 91%)
+	--gradient-color: hsl(193.5, 32%, 91%);
+	--gradient-alt-color: hsl(0, 0%, 100%);
+	--text-color: hsl(0, 0%, 27%);
+	--link-color: hsl(180, 2%, 35%);
+	--nav-link-color: hsl(216, 14%, 48%);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -31,7 +33,7 @@ html {
 
 body {
 	background-color: var(--background-color);
-	background-image: linear-gradient(to top, #ffffff, var(--gradient-color));
+	background-image: repeating-linear-gradient(51.83deg, var(--gradient-color), var(--gradient-alt-color));
 	color: var(--text-color);
 	font-family: var(--font-family);
 	font-size: 0.9em;
