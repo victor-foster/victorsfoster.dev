@@ -24,7 +24,7 @@ html {
 
 body {
 	background-color: var(--background-color);
-	background-image: repeating-linear-gradient(51.83deg, var(--gradient-color-alt), var(--gradient-color));
+	background-image: repeating-linear-gradient(51.83deg, var(--gradient-color), var(--gradient-color-alt));
 	color: var(--text-color);
 	font-family: var(--font-family);
 	font-size: 0.9em;
