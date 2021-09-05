@@ -12,9 +12,10 @@ function MyPersonalWebsite({ Component, pageProps }: AppProps) {
 		<>
 			<Head>
 				<link rel='alternate' type='application/rss+xml' title='RSS' href='/feed.xml' />
-				<Script strategy='lazyOnload' src={`https://www.googletagmanager.com/gtag/js?id=UA-29309617-1`} />
-				<Script strategy='lazyOnload'>
-					{`
+			</Head>
+			<Script strategy='lazyOnload' src={`https://www.googletagmanager.com/gtag/js?id=UA-29309617-1`} />
+			<Script strategy='lazyOnload'>
+				{`
 						window.dataLayer = window.dataLayer || [];
 						function gtag(){dataLayer.push(arguments);}
 						gtag('js', new Date());
@@ -22,8 +23,7 @@ function MyPersonalWebsite({ Component, pageProps }: AppProps) {
 							page_path: window.location.pathname,
 						});
 				`}
-				</Script>
-			</Head>
+			</Script>
 			<Component {...pageProps} />
 		</>
 	);
