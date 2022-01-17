@@ -1,7 +1,7 @@
 ---
-type: page
+type: posts
 title: Posts
-date: 2021-11-21
+date: 2022-01-17
 ---
 
 # Posts
