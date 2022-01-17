@@ -4,7 +4,18 @@
 	},
 	"editor.formatOnSave": true,
 	"editor.defaultFormatter": "esbenp.prettier-vscode",
-	"cSpell.words": ["Inspirato", "Nextra", "browserslist", "gtag", "keyof", "pageview", "stylelint"],
+	"cSpell.words": [
+		"browserslist",
+		"figcaption",
+		"Goodreads",
+		"gtag",
+		"Inspirato",
+		"keyof",
+		"Nextra",
+		"pageview",
+		"Stackoverflow",
+		"stylelint"
+	],
 	"prettier.eslintIntegration": true,
 	"prettier.stylelintIntegration": true
 }

@@ -2,12 +2,12 @@ import 'sanitize.css';
 import 'nextra-theme-blog/style.css';
 import '../styles/main.scss';
 
-import React, { Component, useEffect } from 'react';
-import type { AppProps, NextWebVitalsMetric } from 'next/app';
+import React from 'react';
+import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import Script from 'next/script';
 
-function MyPersonalWebsite({ Component, pageProps }: AppProps) {
+const MyPersonalWebsite = ({ Component, pageProps }: AppProps) => {
 	return (
 		<>
 			<Head>
@@ -31,6 +31,6 @@ function MyPersonalWebsite({ Component, pageProps }: AppProps) {
 			<Component {...pageProps} />
 		</>
 	);
-}
+};
 
 export default MyPersonalWebsite;
