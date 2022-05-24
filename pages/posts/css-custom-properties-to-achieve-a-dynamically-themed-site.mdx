@@ -1,0 +1,29 @@
+---
+title: CSS custom properties to achieve a dynamically themed site.
+date: 2022/05/21
+description: CSS custom properties to achieve a dynamically themed site.
+tag: web development
+author: Victor Foster
+---
+
+# CSS custom properties to achieve a dynamically themed site.
+
+For this blog post I wanted to take a use-case I had on a project in 2010 that needed to allow users to select a color to create a custom website theme. When a user would select a color, the entire theme, including some complex gradients, shadows and filters would all update on the fly. For this project, we were constrained by the web technologies of the time. CSS hadn't yet developed some of amazing features that we currently have. The site was built was asp.net mvc frontend web application with sprinkles of vanilla JS & jQuery, while utilizing LESS as a CSS preprocessor. In this post I will describe how I would approach the problem using modern language features. Asp.net [had a mechanism which](http://www.dotlesscss.org/) allowed the LESS file to be processed using an HTTP Header, with query string parameters. This was a great way to enable creating a new stylesheet on the fly with just setting one color parameter. The problem of course was that this required a postback to the server as well as a page refresh on the client (or to dynamically inject a new stylesheet after the user selected). You can cover up some of the mechanisms happening for the end-user but now we can achieve this type of dynamic theming much easier and more performant using just web technologies. Let's take a look how we might be able to achieve it.
+
+Below you will see an example layout. This is not a production ready example rather a simplified example of the original application layout. Since I am looking to utilize modern CSS for this version I am using CSS grid with some flex box for the main page. The colors are all set as variables but with this version I am using CSS Custom Properties instead of LESS variables for the implementation. This allows us to accept the user input and then update the CSS.
+
+Custom Properties on the fly which will also give us the benefit of not needing to re-compile a new style sheet on the fly or wait the variables to take effect. [insert blurb about CSS properties performance] We simply set the value and let our CSS do the rest of the work. The beauty of using CSS instead of SASS or LESS for this technique is performance and scalability. Now we can server a single style sheet for multiple instances of the application and just set the brand colors as variables to define the scope of the brand. Many if the original gradients were being set based off of logic so we can do the same with this example to allow minimal user interaction in order to set the color palette.
+
+### Bonus points: User preference for colors
+
+Now that you can see the working example (feel free to set the color picker value to see the updates in the browser) we extend this idea by adding in preference based media queries. The main user based media queries we could utilize are Accept color scheme, user prefers reduced motion and light or dark mode. This added layer of personalization I feel like gives the application a little extra uniqueness for each user, as well as fit within a branded experience. [See the updated version below]
+
+I hope you enjoyed this article on utilizing modern CSS in order to create a highly accessible, personalized and performance application with very little code or layers of abstraction.
+
+## Summary
+
+We've discussed how I setup my blog using Next.js and Nextra
+
+- **Static Generation:** The HTML is generated at **build time** from my markdown files when a commit is deployed to production.
+- **Autoprefixer:** The CSS is also generated at **build time** to include the appropriate vendor prefixes that match my [browserlist](https://browserslist.dev/).
+- **React & Typescript ready:** If I so choose, I can highlight and run **Typescript** code examples from this browser to include with code examples.
