@@ -45,7 +45,10 @@ To do this, we can use JavaScript to modify the values of the CSS variables on t
 ```js
 const colorPicker = document.querySelector('#color-picker');
 colorPicker.addEventListener('input', (event) => {
-	document.documentElement.style.setProperty('--primary-hue', colorPicker.value);
+	let [h, s, l] = hexToHSL(event.target.value);
+	document.documentElement.style.setProperty('--primary-hue', h);
+	document.documentElement.style.setProperty('--primary-saturation', `${s}%`);
+	document.documentElement.style.setProperty('--primary-lightness', `${l}%`);
 });
 ```
 
