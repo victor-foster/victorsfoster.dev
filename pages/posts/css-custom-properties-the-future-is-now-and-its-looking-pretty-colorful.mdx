@@ -1,0 +1,52 @@
+---
+title: CSS Custom Properties - The Future is Now, and It's Looking Pretty Colorful
+date: 2023/04/02
+description: From Hue to You - Creating a Customizable Color Palette with Modern CSS
+tag: web development
+author: Victor Foster
+---
+
+# From Hue to You - Creating a Customizable Color Palette with Modern CSS
+
+In the past, creating custom themes in web applications often required the use of a CSS preprocessor like Less or Sass to generate dynamic stylesheets with variables. However, with modern CSS, we no longer need a preprocessor to achieve dynamic color themes. CSS custom properties, also known as variables, provide a native way to define variables in CSS and update them dynamically with JavaScript.
+
+By defining a set of CSS variables that set the primary color and its various shades, tints, and gradients, we'll be able use these variables throughout our application. We can then allow users to customize the color scheme of the website without having to modify the underlying CSS code.
+
+Here's an example of what this might look like:
+
+```css
+:root {
+	--primary-hue: 21;
+	--primary-saturation: 44%;
+	--primary-lightness: 55.9%;
+	--primary-color: hsl(var(--primary-hue), var(--primary-saturation), var(--primary-lightness));
+	--primary-color-inverted: hsl(
+		var(--primary-hue),
+		var(--primary-saturation),
+		calc(100% - var(--primary-lightness) + 10%)
+	);
+	--gradient-start: var(--primary-color);
+	--gradient-end: var(--primary-color-inverted);
+	--gradient-background: linear-gradient(to bottom right, var(--gradient-start), var(--gradient-end));
+}
+```
+
+In this example, we're using HSL (Hue, Saturation, Lightness) color values to define the primary color and its shades. We're also using the `calc()` function to adjust the lightness value of the primary color to create darker and lighter shades. Once we've defined these variables, we can use them throughout our layout.
+
+To allow users to customize the color scheme, we can use JavaScript to modify the values of the CSS variables on the fly. Here's an example:
+
+```js
+const colorPicker = document.querySelector('#color-picker');
+colorPicker.addEventListener('input', (event) => {
+	let [h, s, l] = hexToHSL(event.target.value);
+	document.documentElement.style.setProperty('--primary-hue', h);
+	document.documentElement.style.setProperty('--primary-saturation', `${s}%`);
+	document.documentElement.style.setProperty('--primary-lightness', `${l}%`);
+});
+```
+
+In this [CodePen example](https://codepen.io/victorfoster/full/yLzgYda), we're using an HTML color picker input to allow users to select a new primary color. When the color picker value changes, we're using JavaScript to update the --primary-hue CSS variable to the new value. With just a few lines of code, we've created a customizable layout that users can adjust to their preferences.
+
+## Summary
+
+I hope this article has been helpful in showing how to use modern CSS to achieve what you might've needed a preprocessor to achieve in the past. In a future blog post, we'll explore some new Level 6 Color Specifications like `color-contrast()` and `color-mix()` which will continue to make our implementations with color even better.
