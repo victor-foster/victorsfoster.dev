@@ -12,7 +12,7 @@
 	"scripts": {
 		"analyze": "ANALYZE=true next build",
 		"dev": "next",
-		"build": "node ./scripts/gen-rss.js && next build",
+		"build": "node ./scripts/gen-rss.mjs && next build",
 		"fix-code": "prettier-eslint --write 'src/**/*.{js,jsx,ts,tsx}' ",
 		"fix-styles": "prettier-stylelint --write 'src/**/*.{css,scss}' ",
 		"lint": "next lint",
