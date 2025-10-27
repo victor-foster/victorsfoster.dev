@@ -1,0 +1,116 @@
+---
+title: 'Notes and Takeaways from Web Unleashed 2024'
+date: '2024-10-15'
+tags: ['web performance', 'frontend', 'nextjs', 'typescript', 'astro', 'conference']
+summary: 'My notes and takeaways from Web Unleashed 2024 — covering performance engineering, TypeScript tips, RSC forensics, and modern frontend patterns.'
+---
+
+import Image from 'next/image';
+import Link from 'next/link';
+
+# My Takeaways from Web Unleashed 2024
+
+This year I attended Web Unleashed 2024 in Toronto, Canada which reinvigorated my passion for web development. Between hallway conversations, live coding demos, and deep dives into modern web performance, I walked away with a notebook full of ideas and a renewed appreciation for the craft of frontend engineering.
+
+I attended talks on Next.js, Astro.js, TypeScript, Tailwind, React Server Components (RSCs) and modern caching, but the standout for me was "How to Think Like a Performance Engineer" workshop by Harry Roberts. If you’ve ever read <a href="https://csswizardry.com" target="_blank" rel="noopener noreferrer">CSS Wizardry</a> you know Harry's approach, which is data-driven and extremely pragmatic.
+
+## How to Think Like a Performance Engineer
+
+This was a hands-on workshop which helped reframe how I think about diagnosing and optimizing performance. Instead of treating Core Web Vitals like arbitrary scores, he encouraged us to look at the relationships between key metrics:
+
+- **TTFB (Time to First Byte)** – a predictor of back-end or network issues
+- **FCP (First Contentful Paint)** – the first sign of something meaningful
+- **LCP (Largest Contentful Paint)** – the moment the main content appears
+- **INP (Interaction to Next Paint)** – how quickly the site reacts to user input
+
+He stressed not just fixing numbers but understanding the gaps between them. For example, if TTFB is fine but there’s a long delay before FCP, your issue probably lives in the **head** element of your HTML with render-blocking CSS or synchronous scripts.
+
+One of his best one-liners:
+
+> You can’t just _fix_ LCP, you have to chip away at it.
+
+Some other gems from the session:
+
+- **Don't ever run Lighthouse in CI**. Prefer real-user data (CrUX) instead.
+- **Measure under different user scenarios**: before cookie consent, after consent, with and without banners.
+- **Put blocking JS before blocking CSS** so the browser doesn't deadlock.
+- **Avoid lazy-loading above-the-fold images**. It hides them from the preload scanner and delays rendering.
+- **Fetch priority**:
+  - fetchpriority="high" for LCP images
+  - fetchpriority="low" for non-critical grid items
+- **Font optimization:** preload only key fonts; assign priority where it matters.
+- **Bundle assets smartly.** Avoid splitting across subdomains.
+- **LCP image recipe:**
+  - fetchpriority="high"
+  - decoding="sync"
+  - avoid async loading
+
+I also appreciated how Harry contextualized tools like _performance.mark()_, _performance.measure()_, and the Server Timing API for more advanced diagnosis. He even shared WebPageTest recipes for testing cookie banners, blocking third parties, and simulating user journeys.
+
+## Session Highlights
+
+Beyond that session, Web Unleashed was packed with talks that hit both technical depth and practical takeaways:
+
+### Level Up Your TypeScript
+
+This was a standout session: reasoning about **unions, intersections, and utility types** like set theory.
+
+#### Key Insights
+
+- **Unions > Enums** (in most cases).
+  Use enums only when numeric values map to backend constants.
+- **Generate a union from an array:**
+
+  ```ts
+  // 'as const' makes it readonly
+  const letterValues = ['A', 'B', 'C'] as const;
+  // [number] indexes into the array type
+  type Letters = typeof letterValues[number];
+  ```
+
+- strictNullChecks: true — essential for catching edge cases.
+- Revisit built-ins like Omit, Exclude, and Extract.
+
+### Next.js vs. Astro: FIGHT
+
+An engaging and surprisingly technical comparison of frameworks.
+
+- Astro wins on sentiment (developer happiness).
+- Next.js wins on ecosystem and maturity.
+
+Redirect handling and ISR flexibility differ. Astro gives you control, but you need to implement the headers yourself. Middleware should execute in under 100ms.
+
+**My question**:
+If moving away from React, what frameworks would you explore via Astro?
+Answer: Svelte and Solid both integrate well for partial hydration.
+
+### Personalized and Localized Digital Experiences
+
+Showcase of composable CMS and AI integration for React-based content systems:
+
+- Contentful Studio, AWS Bedrock, Ninetail SDK
+- Integration options for Astro or Next.js
+- Drag-and-drop React component editing for content teams
+- Middleware-based personalization with getStaticProps and next-middleware
+
+This demonstrated how much content tooling has matured; it’s no longer about choosing one CMS, but composing APIs and SDKs for your own stack.
+
+## Final Thoughts
+
+Web Unleashed 2024 reinforced a critical shift in frontend engineering: it's becoming less about tools and more about systems thinking.
+
+Whether it's server components, caching primitives, or performance budgets,
+the focus is shifting from chasing scores to building measurable, resilient experiences.
+
+Harry Roberts’ workshop was the standout for me, but every session connected in one theme:
+
+> Measure what matters, and build deliberately.
+
+## Resources
+
+- [Time to First Byte: What It Is and How to Improve It](https://csswizardry.com/2019/08/time-to-first-byte-what-it-is-and-why-it-matters/)
+- [Get Your Head Straight](https://speakerdeck.com/csswizardry/get-your-head-straight)
+- [WebPageTest](https://webpagetest.org)
+- [Chrome CrUX Report](https://developer.chrome.com/docs/crux/)
+- [Treo.sh](https://treo.sh)
+- [Performance Element Timing API](https://developer.mozilla.org/en-US/docs/Web/API/Element_timing)
