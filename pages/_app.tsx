@@ -1,6 +1,8 @@
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import Script from 'next/script';
+import 'sanitize.css';
+import 'nextra-theme-blog/style.css';
 import '../styles/main.scss';
 
 export default function App({ Component, pageProps }: AppProps) {
