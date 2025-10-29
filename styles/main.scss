@@ -81,9 +81,13 @@ body::before {
 	background-repeat: no-repeat;
 	background-attachment: fixed;
 	background-size: cover;
-	opacity: 0.6;
+	opacity: 0.3;
 	pointer-events: none;
 	z-index: -1;
+
+	@media (max-width: 768px) {
+		background-attachment: scroll; /* prevents color haze on mobile */
+	}
 }
 
 b,
