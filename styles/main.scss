@@ -4,8 +4,9 @@
 	--font-weight: 400;
 	--font-weight-bold: 600;
 	--background-color: #ffffff;
-	--gradient-color: hsl(193.5, 32%, 91%);
-	--gradient-color-alt: hsl(0, 0%, 100%);
+	--gradient-start: hsl(0, 0%, 100%);
+	--gradient-end: hsl(193, 32%, 91%);
+
 	--text-color: hsl(0, 0%, 27%);
 	--link-color: hsl(180, 2%, 35%);
 	--nav-link-color: hsl(216, 14%, 48%);
@@ -56,7 +57,10 @@ html {
 
 body {
 	background-color: var(--background-color);
-	background-image: repeating-linear-gradient(51.83deg, var(--gradient-color), var(--gradient-color-alt));
+	background-image: linear-gradient(180deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
+	background-repeat: no-repeat;
+	background-attachment: fixed; /* smooth on most modern browsers */
+	background-size: cover;
 	color: var(--text-color);
 	font-family: var(--font-family);
 	font-size: var(--font-size-base);
