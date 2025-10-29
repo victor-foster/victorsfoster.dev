@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 const YEAR = new Date().getFullYear();
 
 function Head({ title, meta }) {
+
 	const router = useRouter();
 	const siteUrl = 'https://victorfoster.dev';
 
