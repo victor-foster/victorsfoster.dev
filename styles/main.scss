@@ -3,8 +3,9 @@
 	--font-family-alt: 'Vollkorn', sans-serif;
 	--font-weight: 400;
 	--font-weight-bold: 600;
+
 	--background-color: #ffffff;
-	--gradient-start: hsl(0, 0%, 100%);
+	--gradient-start: var(--background-color);
 	--gradient-end: hsl(193, 32%, 91%);
 
 	--text-color: hsl(0, 0%, 27%);
@@ -12,29 +13,25 @@
 	--nav-link-color: hsl(216, 14%, 48%);
 
 	// Fluid typography variables
-	--font-size-base: 1.125rem; // Fallback: 18px
-	--font-size-sm: 0.875rem; // Fallback: 14px
-	--font-size-lg: 1.25rem; // Fallback: 20px
+	--font-size-base: 1.125rem;
+	--font-size-sm: 0.875rem;
+	--font-size-lg: 1.25rem;
 
-	// Headings with better scale - following a 1.25 ratio (Major Third)
-	--font-size-h1: 2.5rem; // Fallback: 40px
-	--font-size-h2: 2rem; // Fallback: 32px
-	--font-size-h3: 1.625rem; // Fallback: 26px
-	--font-size-h4: 1.375rem; // Fallback: 22px
-	--font-size-h5: 1.25rem; // Fallback: 20px
-	--font-size-h6: 1.125rem; // Fallback: 18px
+	--font-size-h1: 2.5rem;
+	--font-size-h2: 2rem;
+	--font-size-h3: 1.625rem;
+	--font-size-h4: 1.375rem;
+	--font-size-h5: 1.25rem;
+	--font-size-h6: 1.125rem;
 }
 
-// Use clamp for modern browsers
+// Responsive typography using clamp()
 @supports (font-size: clamp(1rem, 2vw, 2rem)) {
 	:root {
-		// Body text: 18px at 320px → 20px at 1400px
-		// Formula: min + (max - min) * (100vw - min-vw) / (max-vw - min-vw)
 		--font-size-base: clamp(1.125rem, 1.05rem + 0.375vw, 1.25rem);
 		--font-size-sm: clamp(0.875rem, 0.825rem + 0.25vw, 1rem);
 		--font-size-lg: clamp(1.25rem, 1.15rem + 0.5vw, 1.5rem);
 
-		// Headings with clear visual hierarchy
 		--font-size-h1: clamp(2rem, 1.2rem + 4vw, 3.5rem);
 		--font-size-h2: clamp(1.75rem, 1.15rem + 3vw, 2.75rem);
 		--font-size-h3: clamp(1.5rem, 1.1rem + 2vw, 2.25rem);
@@ -56,6 +53,10 @@ html {
 }
 
 body {
+	background-image: linear-gradient(180deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-size: cover;
 	background-color: var(--background-color);
 	color: var(--text-color);
 	font-family: var(--font-family);
@@ -67,28 +68,18 @@ body {
 	overflow: auto;
 	padding: 0.3em 2em;
 	text-rendering: optimizeSpeed;
+	transition: background 0.4s ease, color 0.3s ease;
 
 	@media (max-width: 768px) {
 		padding: 0.3em 1.25em;
 	}
 }
 
-body::before {
-	content: '';
-	position: fixed;
-	inset: 0;
-	background-image: linear-gradient(180deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
-	background-repeat: no-repeat;
-	background-attachment: fixed;
-	background-size: cover;
-	opacity: 0.6;
-	pointer-events: none;
-	z-index: -1;
-}
-
-b,
-strong {
-	font-weight: 600;
+@media screen and (min-resolution: 1.5dppx) {
+	body {
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+	}
 }
 
 h1,
@@ -97,19 +88,15 @@ h3,
 h4,
 h5,
 h6 {
+	color: hsl(0, 0%, 20%);
 	font-family: var(--font-family-alt);
 	font-weight: var(--font-weight-bold);
 	line-height: 1.2;
 	margin-top: 1.75em;
 	margin-bottom: 0.65em;
-
 	text-rendering: optimizeLegibility;
-
 	text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-
-	transition: font-size 0.2s ease-in-out;
-
-	color: hsl(0, 0%, 20%);
+	transition: font-size 0.2s ease-in-out, color 0.3s ease-in-out;
 }
 
 h1 {
@@ -140,11 +127,9 @@ h6 {
 	font-size: var(--font-size-h6);
 }
 
-@media screen and (min-device-pixel-ratio: 1.5), screen and (min-resolution: 1.5dppx) {
-	body {
-		-webkit-font-smoothing: antialiased;
-		-moz-osx-font-smoothing: grayscale;
-	}
+b,
+strong {
+	font-weight: 600;
 }
 
 // Better focus styles for accessibility
@@ -165,13 +150,10 @@ img.next-image {
 .prose {
 	color: var(--text-color);
 	font-size: var(--font-size-base);
-
-	// Optimal reading width (65-75 characters)
 	max-width: 68ch;
 
 	p {
 		margin-bottom: 1.5em;
-		// Prevent orphans and widows for better typography
 		orphans: 3;
 		widows: 3;
 	}
@@ -203,13 +185,13 @@ img.next-image {
 	color: var(--link-color);
 	text-decoration: none;
 	border-bottom: 1px dotted;
-	transition: border-color 0.2s ease-in-out, color 0.2s ease-in-out;
 	padding: 0.125em 0;
 	display: inline-block;
+	transition: color 0.2s ease, border-color 0.2s ease;
 
 	&:hover {
-		border-bottom-style: solid;
 		color: hsl(180, 2%, 25%);
+		border-bottom-style: solid;
 	}
 
 	&:focus-visible {
@@ -227,4 +209,68 @@ img.next-image {
 	&:hover {
 		color: var(--link-color);
 	}
+}
+
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.prose,
+.nav-line .nav-link {
+	transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+*:focus-visible {
+	outline: 2px solid var(--link-color);
+	outline-offset: 2px;
+	border-radius: 2px;
+}
+
+html.dark {
+	--background-color: hsl(230, 15%, 12%);
+	--gradient-start: hsl(230, 15%, 14%);
+	--gradient-end: hsl(230, 20%, 8%);
+	--text-color: hsl(220, 15%, 85%);
+	--link-color: hsl(200, 20%, 75%);
+	--nav-link-color: hsl(220, 10%, 65%);
+}
+
+html.dark h1,
+html.dark h2,
+html.dark h3,
+html.dark h4,
+html.dark h5,
+html.dark h6 {
+	color: hsl(210, 20%, 95%);
+	text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+}
+
+html.dark code {
+	background: rgba(255, 255, 255, 0.05);
+	border-radius: 4px;
+	color: hsl(50, 15%, 80%);
+}
+
+html.dark pre code {
+	background: transparent;
+	color: hsl(210, 15%, 85%);
+}
+
+html.dark .prose a {
+	color: var(--link-color);
+	border-bottom-color: rgba(255, 255, 255, 0.15);
+	transition: color 0.2s ease, border-color 0.2s ease;
+
+	&:hover {
+		color: hsl(200, 20%, 90%);
+		border-bottom-color: rgba(255, 255, 255, 0.3);
+	}
+}
+
+html.dark body {
+	background: radial-gradient(80% 100% at 50% 0%, hsl(230, 15%, 16%) 0%, hsl(230, 15%, 10%) 100%);
+	color: var(--text-color);
 }

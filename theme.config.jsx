@@ -51,6 +51,7 @@ const myBlogTheme = {
 			</dl> */}
 		</footer>
 	),
+  darkMode: true,
 };
 
 export default myBlogTheme;
