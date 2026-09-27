@@ -1,6 +1,7 @@
 ---
 // Port of the `Head` in the old theme.config.jsx, with canonical/og:url on `site` (www).
 import { Font } from 'astro:assets';
+import Analytics from './Analytics.astro';
 import { pagePath } from '../lib/path';
 
 interface Props {
@@ -60,3 +61,4 @@ const ogImage = image ? new URL(image, Astro.site).href : new URL('/og-image.png
 
 <Font cssVariable='--font-open-sans' preload />
 <Font cssVariable='--font-vollkorn' preload />
+<Analytics />

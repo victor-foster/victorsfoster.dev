@@ -1,5 +1,5 @@
 // https://docs.astro.build/en/reference/configuration-reference/
-import { defineConfig, fontProviders } from 'astro/config';
+import { defineConfig, envField, fontProviders } from 'astro/config';
 import mdx from '@astrojs/mdx';
 import { satteri, satteriHeadingIdsPlugin } from '@astrojs/markdown-satteri';
 import { externalLinks } from './src/lib/external-links.mjs';
@@ -46,5 +46,11 @@ export default defineConfig({
 			subsets: ['latin'],
 		},
 	],
+	env: {
+		schema: {
+			// GA4 measurement ID; set only for Vercel's Production environment (see src/components/Analytics.astro)
+			PUBLIC_GA_MEASUREMENT_ID: envField.string({ context: 'client', access: 'public', optional: true }),
+		},
+	},
 	integrations: [mdx()],
 });

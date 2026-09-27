@@ -299,17 +299,19 @@ Plan: [`plan.md`](plan.md) · Spec: [`SPEC.md`](../SPEC.md)
 **Description:** Load gtag only in production builds and only when the measurement ID is set.
 
 **Acceptance criteria:**
-- [ ] `Analytics.astro` renders the GA4 snippet only if `import.meta.env.PROD && import.meta.env.PUBLIC_GA_MEASUREMENT_ID`
-- [ ] No UA ID remains anywhere (`grep -r UA-29309617` finds nothing)
+- [x] `Analytics.astro` renders the GA4 snippet only if `import.meta.env.PROD && import.meta.env.PUBLIC_GA_MEASUREMENT_ID`
+- [x] No UA ID remains anywhere (`grep -r UA-29309617` finds nothing)
 
 **Verification:**
-- [ ] `npm run build` without the env var → no `googletagmanager` in `dist/`
-- [ ] `PUBLIC_GA_MEASUREMENT_ID=G-TEST npm run build` → the tag with `G-TEST` is in every page
-- [ ] `npm run dev` → no tag
+- [x] `npm run build` without the env var → no `googletagmanager` in `dist/`
+- [x] `PUBLIC_GA_MEASUREMENT_ID=G-TEST npm run build` → the tag with `G-TEST` is in every page
+- [x] `npm run dev` → no tag
 
 **Dependencies:** T3
-**Files:** `src/components/Analytics.astro`, `src/layouts/BaseLayout.astro`, `src/env.d.ts`
+**Files:** `src/components/Analytics.astro`, `src/components/Head.astro`, `astro.config.mjs`
 **Scope:** XS
+
+**Result:** the ID comes from `astro:env` (the docs' recommended, typed option: optional public `PUBLIC_GA_MEASUREMENT_ID` in `astro.config.mjs`), not `src/env.d.ts`. Google's snippet is used unchanged, with the ID passed through `define:vars` (implies `is:inline`, JSON-serialized). Verified: no tag without the variable (0 files), the tag on 8/8 pages with `G-TEST` in a production build, and none in dev. The only `UA-29309617` left in code is the route checker's assertion that it's gone.
 
 ### T13: Vercel preview deploy
 
