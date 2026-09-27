@@ -210,17 +210,19 @@ Plan: [`plan.md`](plan.md) · Spec: [`SPEC.md`](../SPEC.md)
 **Description:** The post list at `/posts` and one page per tag, sharing a single list component.
 
 **Acceptance criteria:**
-- [ ] `PostList.astro` shows the posts newest first, each with a title link, description, date and "Read More →", matching the baseline
-- [ ] `/posts` renders under `<title>Posts</title>`
-- [ ] `tags/[tag].astro` generates one page per distinct tag, using the raw tag as the param (`/tags/web%20development`, `/tags/web%20performance`); the heading is `Posts Tagged with “<tag>”`
+- [x] `PostList.astro` shows the posts newest first, each with a title link, description, date and "Read More →", matching the baseline
+- [x] `/posts` renders under `<title>Posts</title>`
+- [x] `tags/[tag].astro` generates one page per distinct tag, using the raw tag as the param (`/tags/web%20development`, `/tags/web%20performance`); the heading is `Posts Tagged with “<tag>”`
 
 **Verification:**
-- [ ] `npm run verify`: the posts and tag routes pass; `/tags/web%20development` lists 3 posts and `/tags/web%20performance` lists 1
-- [ ] Manual check vs `tasks/baseline/posts-*` and `tags-*`
+- [x] `npm run verify`: the posts and tag routes pass; `/tags/web%20development` lists 3 posts and `/tags/web%20performance` lists 1
+- [ ] Manual check vs `tasks/baseline/posts-*` and `tags-*` (after T4 styling, given the order change)
 
 **Dependencies:** T6
 **Files:** `src/components/PostList.astro`, `src/pages/posts/index.astro`, `src/pages/tags/[tag].astro`, delete `pages/posts/index.mdx` and `pages/tags/[tag].mdx`
 **Scope:** S
+
+**Result:** `/posts`, `/tags/web%20development` (3 posts) and `/tags/web%20performance` (1 post) pass all checks, newest first. `BaseLayout` gained an optional `heading` prop (tag pages: `<title>Tagged Posts</title>` with a different `<h1>`). Tag pages are now pre-rendered; on the live site they were rendered in the browser. The Web Unleashed description is shown, as decided in the spec. The old `pages/posts/index.mdx` and `pages/tags/[tag].mdx` were removed.
 
 ### T9: RSS feed
 

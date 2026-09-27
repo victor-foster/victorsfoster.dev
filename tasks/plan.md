@@ -67,7 +67,7 @@ T6b, T10, T11 and T12 depend only on T3/T4 and can be done in any order. T7, T8 
 ### Checkpoint C1: Posts
 - [ ] `/` and all 3 posts pass `verify` and match the baseline. **Victor reviews.**
 
-- [ ] T8: Posts index and tag pages
+- [x] T8: Posts index and tag pages
 - [ ] T9: RSS feed via `@astrojs/rss`
 - [ ] T10: Photos page
 
