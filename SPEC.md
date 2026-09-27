@@ -20,16 +20,18 @@ These were checked against production on 2026-09-27.
 | `/photos` | `pages/photos.mdx` | 4 photos with figcaptions linking to `/images/*.jpg` |
 | `/posts` | `pages/posts/index.mdx` | Post list, newest first: title link, description, date |
 | `/posts/<slug>` | `pages/posts/*.mdx` | 3 posts. Slugs are case-sensitive (`how-I-setup-my-developer-blog`) |
-| `/tags/<tag>` | `pages/tags/[tag].mdx` | Heading `Posts Tagged with “<tag>”`. The tag is raw and URL-encoded (`/tags/web%20development`) |
+| `/tags/<tag>` | `pages/tags/[tag].mdx` | `<title>Tagged Posts</title>`, heading `Posts Tagged with “<tag>”`. The tag is raw and URL-encoded (`/tags/web%20development`). Live pages render **client-side** (empty static HTML, canonical `…/tags/[tag]`); the Astro version pre-renders them, which fixes both |
 | `/feed.xml` | `scripts/gen-rss.mjs` | RSS 2.0, one item per post |
 | `/images/*`, `/favicon.ico` | `public/` | Static files served at the same paths |
 
 - **URL shape:** no trailing slash. `/posts/` currently 308-redirects to `/posts`.
 - **Title:** `<title>` is the frontmatter `title` with no suffix.
+- **Page heading:** the `<h1>` is the frontmatter `title`. Nextra drops the MDX file's own first `# heading`: About shows "About", not "Victor Foster", and the CSS post shows its title, not "From Hue to You…". Keep this behavior; don't edit the content.
 - **Head on every page:** `lang="en"`; og:type/url/title/description/site_name/image(+width, height, alt); twitter:card/title/description/image/alt; canonical; RSS `<link rel="alternate">`; Google Fonts (Open Sans, Vollkorn 400/600).
 - **Description fallback:** `description || summary || 'Victor Foster - UI Engineer'`.
-- **Nav:** About (`/`), Photos, Posts, RSS.
-- **Post header:** date and tag links.
+- **Nav:** Photos, Posts, About, in that order, followed by the theme toggle and placed below the `<h1>`. The current page is plain text rather than a link. There's no RSS link in the nav (only the `<link rel="alternate">` in the head). Post pages show "Back" → `/posts` instead of the nav.
+- **Post header:** `<author>, ` (only if frontmatter has `author`), `<time>` as `Mon Jan 17 2022`, `•`, tag pills; right side: "Back" and the toggle.
+- **Post list** (`/posts`, tag pages): `<h3>` title link, description + "Read More →", date. Live omits the description for the Web Unleashed post even though it has one (a Nextra quirk); the port **shows it**, which is consistent with the other posts.
 - **Theme:** light and dark. Dark mode is applied with `html.dark`, follows the OS setting by default, has a toggle, and the visitor's choice persists.
 - **Styles:** `styles/main.scss` is carried over unchanged. Nextra's own base styles (prose, layout, nav) have to be rebuilt to match.
 
@@ -38,7 +40,8 @@ These were checked against production on 2026-09-27.
 1. **Analytics.** `UA-29309617-1` has collected nothing since Universal Analytics shut down in 2023. Replace it with GA4.
 2. **Default share image.** `/og-image.png` returns a 404 in production, so pages without their own image share a broken image. Add a 1200×630 `public/og-image.png`: name and "UI Engineer" on the site gradient, for Victor to approve or replace. Per-post images are out of scope.
 3. **Canonical host.** Canonicals point to `https://victorfoster.dev/…`, which 308-redirects to `www.`. Set `site: 'https://www.victorfoster.dev'` so every canonical and og:url uses `www.`.
-4. **Photos.** All 4 images use `priority` (eager loading). Only the first image should load eagerly; the rest should be lazy.
+4. **Meta description.** The live site emits only `og:description`. Add `<meta name="description">` with the same value.
+5. **Photos.** All 4 images use `priority` (eager loading). Only the first image should load eagerly; the rest should be lazy.
 
 ## Tech Stack
 

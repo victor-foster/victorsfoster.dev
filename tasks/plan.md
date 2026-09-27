@@ -42,7 +42,7 @@ T6b, T10, T11 and T12 depend only on T3/T4 and can be done in any order. T7, T8 
 ## Task List
 
 ### Phase 1: Foundation
-- [ ] T1: Capture live baseline and write `check-routes.mjs` (fails)
+- [x] T1: Capture live baseline and write `check-routes.mjs` (fails)
 - [ ] T2: Swap toolchain: remove Next, scaffold Astro, add `vercel.json`
 - [ ] T2b: ESLint 9 + eslint-plugin-astro, Prettier 3 + prettier-plugin-astro
 - [ ] T3: BaseLayout, Head (meta), nav, and the About page

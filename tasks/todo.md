@@ -11,17 +11,19 @@ Plan: [`plan.md`](plan.md) · Spec: [`SPEC.md`](../SPEC.md)
 **Description:** Save the live site as the parity reference, and encode the spec's route and metadata table as a script that will fail until Astro produces those routes.
 
 **Acceptance criteria:**
-- [ ] Screenshots are taken with a one-off `npx playwright screenshot --channel chrome --full-page --viewport-size=<w>,900 --color-scheme=<light|dark> <url> <out>.png`, wrapped in `scripts/screenshot.sh <base-url> <out-dir>` so the same command re-shoots `localhost:4321` for later comparisons. Playwright is not added to `package.json`
-- [ ] `tasks/baseline/` (gitignored) holds screenshots of `/`, `/photos`, `/posts`, `/posts/css-custom-properties-…` (has code blocks), and `/tags/web%20development`, each at 375px and 1280px in both light and dark (20 images); it also holds each page's rendered HTML and the live compiled CSS
-- [ ] `scripts/check-routes.mjs` checks `dist/` against the spec: every route file exists; for each page it checks `lang="en"`, the exact `<title>`, meta description, og:*/twitter:* tags, a canonical on `https://www.victorfoster.dev` with no trailing slash, post dates in the form `Mon Jan 17 2022`, and that `feed.xml` has 3 items with absolute www links
-- [ ] Running it now fails with a clear list of what's missing (there's no `dist/` yet)
+- [x] Screenshots are taken with a one-off `npx playwright screenshot --channel chrome --full-page --viewport-size=<w>,900 --color-scheme=<light|dark> <url> <out>.png`, wrapped in `scripts/screenshot.sh <base-url> <out-dir>` so the same command re-shoots `localhost:4321` for later comparisons. Playwright is not added to `package.json`
+- [x] `tasks/baseline/` (gitignored) holds screenshots of `/`, `/photos`, `/posts`, `/posts/css-custom-properties-…` (has code blocks), and `/tags/web%20development`, each at 375px and 1280px in both light and dark (20 images); it also holds each page's rendered HTML and the live compiled CSS
+- [x] `scripts/check-routes.mjs` checks `dist/` against the spec: every route file exists; for each page it checks `lang="en"`, the exact `<title>`, meta description, og:*/twitter:* tags, a canonical on `https://www.victorfoster.dev` with no trailing slash, post dates in the form `Mon Jan 17 2022`, and that `feed.xml` has 3 items with absolute www links
+- [x] Running it now fails with a clear list of what's missing (there's no `dist/` yet)
 
 **Verification:**
-- [ ] `node scripts/check-routes.mjs` exits non-zero and lists the missing routes
-- [ ] Manual check: open the baseline screenshots; all 20 are present and show the correct theme
+- [x] `node scripts/check-routes.mjs` exits non-zero and lists the missing routes
+- [x] Manual check: open the baseline screenshots; all 20 are present and show the correct theme
 
 **Dependencies:** None
 **Files:** `scripts/check-routes.mjs`, `scripts/screenshot.sh`, `.gitignore`, `tasks/baseline/**` (untracked)
+
+**Result:** 20 screenshots, 7 HTML pages, feed and live CSS saved. The script, validated against the live HTML, gives 204 checks and 46 failures, every one a known live defect. It exits 1 with no `dist/`.
 **Scope:** S
 
 ### T2: Swap the toolchain
