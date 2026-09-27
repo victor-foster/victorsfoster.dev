@@ -108,17 +108,20 @@ Plan: [`plan.md`](plan.md) · Spec: [`SPEC.md`](../SPEC.md)
 **Description:** Rebuild the layout, nav and typography that Nextra's Tailwind classes provided, working from the baseline CSS.
 
 **Acceptance criteria:**
-- [ ] `src/styles/base.scss` provides the container width, nav, prose (headings, lists, links, `code`, `hr`, blockquote) and post meta pill styles in the current `.scss` style, with custom properties from `main.scss` where they exist
-- [ ] `main.scss` loads after `base.scss`, so the existing overrides still apply
-- [ ] The About page matches the baseline at 375 and 1280 in light mode
+- [x] `src/styles/base.scss` provides the container width, nav, prose (headings, lists, links, `code`, `hr`, blockquote) and post meta pill styles in the current `.scss` style, with custom properties from `main.scss` where they exist
+- [x] `main.scss` loads after `base.scss`, so the existing overrides still apply
+- [x] The About page matches the baseline at 375 and 1280 in light mode
 
 **Verification:**
-- [ ] `npm run build` is clean
-- [ ] Manual check: `scripts/screenshot.sh http://localhost:4321 tasks/current` and compare with `tasks/baseline/about-{375,1280}-light.png`
+- [x] `npm run build` is clean
+- [x] Manual check: `scripts/screenshot.sh http://localhost:4321 tasks/current` and compare with `tasks/baseline/about-{375,1280}-light.png`
 
 **Dependencies:** T3
 **Files:** `src/styles/base.scss`, `src/layouts/BaseLayout.astro`
-**Scope:** S
+**Scope:** S → M (the approach changed; see below)
+
+**Result:** a computed-style diff (live vs local, the same elements on 5 page types; scratchpad `styles.mjs`) found that production's typography came from Tailwind Typography `prose`, not `main.scss` (`.nx-prose :where(h1)` outranks `main.scss`'s bare `h1`/`p`), plus Tailwind preflight. So instead of hand-copying, `src/styles/nextra.css` **vendors the compiled rules from production's CSS** (preflight, container, prose with `.nx-prose` renamed to `.page`, blog theme base, heading-anchor rules; MIT, attributed in the header, Prettier-ignored). Cascade order is the same as production: sanitize → nextra.css → base.scss (the utility-class equivalents for our markup) → main.scss. Also added: the inline-code pill; code-block box values measured on production; phone-only cascade quirks (production's `max-md:prose-sm` block came after the utilities); and `src/lib/heading-anchors.mjs` (hover `#` permalinks on h2–h6, with `satteriHeadingIdsPlugin()` run first so ids exist).
+**Diff: 302 → 25 at 1280 and 36 at 375.** What remains is the toggle (T5), the post-meta nesting (one div vs two; children identical), the Web Unleashed description (a spec decision), sub-pixel image rounding, invisible `pre` colors and radius, and a 0.6px code line height on phones. Side-by-side screenshots are identical apart from the toggle.
 
 ### T5: Dark mode
 

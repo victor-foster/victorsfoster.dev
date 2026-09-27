@@ -12,7 +12,7 @@ const { title, description, image, date, tag: tags, author } = Astro.props.post.
 
 <BaseLayout title={title} description={description} image={image}>
 	<div class='page-header' slot='header'>
-		<div class='post-meta'>
+		<div class='post-meta not-prose'>
 			{author && <span>{author},</span>}
 			<time datetime={date.toISOString()}>{formatPostDate(date)}</time>
 			{tags.length > 0 && <span class='post-meta-separator'>•</span>}

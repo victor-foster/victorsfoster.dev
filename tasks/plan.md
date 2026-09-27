@@ -53,7 +53,7 @@ T6b, T10, T11 and T12 depend only on T3/T4 and can be done in any order. T7, T8 
 - [ ] `npm run lint`, `build` and `verify` are clean for `/`
 
 ### Phase 2: Look and feel
-- [ ] T4: Rebuild Nextra base styles for parity (`base.scss`)
+- [x] T4: Rebuild Nextra base styles for parity (`base.scss`)
 - [ ] T5: Dark mode: no-flash script, toggle, persistence
 
 ### Checkpoint B: About page is at parity

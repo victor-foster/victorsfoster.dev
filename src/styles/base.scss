@@ -1,4 +1,16 @@
-// Base styles that Nextra's theme used to provide. Loaded before main.scss so its overrides still apply.
+// Hand-written equivalents of the Tailwind utility classes nextra-theme-blog put on its markup.
+// Loaded after nextra.css (vendored preflight + prose) and before main.scss, the order production used.
+// Colors are Tailwind's gray scale, as Nextra used them.
+$gray-200: #e5e7eb;
+$gray-300: #d1d5db;
+$gray-400: #9ca3af;
+$gray-500: #6b7280;
+$gray-600: #4b5563;
+$gray-700: #374151;
+
+// On production, Nextra's `max-md:prose-sm` block came after the utilities, so below 768px the prose-sm values
+// win over some utilities. Those utilities are applied only from this width up.
+$md: 768px;
 
 // Visually hidden, still announced (e.g. " (opens in a new tab)" on external links)
 .sr-only {
@@ -13,23 +25,112 @@
 	border-width: 0;
 }
 
-// Nextra's Tailwind preflight kept media inside the column (photos carry their intrinsic width/height)
-audio,
-canvas,
-embed,
-iframe,
-img,
-object,
-svg,
-video {
-	display: block;
-	vertical-align: middle;
+// Title row under the <h1>: nav (pages) or date/tags + Back (posts); nx-mb-8 nx-flex nx-gap-3 nx-items-center
+.page-header {
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+	margin-bottom: 2rem;
 }
 
-img,
-video {
-	max-width: 100%;
-	height: auto;
+// nx-flex nx-grow nx-flex-wrap nx-items-center nx-justify-end nx-gap-3
+.site-nav {
+	display: flex;
+	flex-grow: 1;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: flex-end;
+	gap: 0.75rem;
+
+	[aria-current] {
+		cursor: default;
+		color: $gray-600;
+	}
+}
+
+// nx-grow nx-text-gray-600 + nx-not-prose nx-flex nx-flex-wrap nx-items-center nx-gap-1
+.post-meta {
+	display: flex;
+	flex-grow: 1;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 0.25rem;
+	color: $gray-600;
+}
+
+.post-meta-separator {
+	padding: 0 0.25rem;
+}
+
+.tag {
+	user-select: none;
+	border-radius: 0.375rem;
+	background-color: $gray-200;
+	padding: 0 0.25rem;
+	font-size: 0.875rem;
+	line-height: 1.25rem;
+	color: $gray-400;
+	transition-property: color, background-color;
+	transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+	transition-duration: 150ms;
+
+	&:hover {
+		background-color: $gray-300;
+		color: $gray-500;
+	}
+}
+
+// nx-flex nx-items-center nx-gap-3 print:nx-hidden
+.post-actions {
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+
+	@media print {
+		display: none;
+	}
+}
+
+// Post list (/posts, /tags/*)
+.post-item h3 a {
+	text-decoration: none !important;
+}
+
+.post-item-description {
+	color: $gray-600;
+
+	@media (min-width: $md) {
+		margin-bottom: 0.5rem;
+	}
+}
+
+.read-more {
+	margin-left: 0.5rem;
+}
+
+.post-item time {
+	font-size: 0.875rem;
+	line-height: 1.25rem;
+	color: $gray-600;
+}
+
+html.dark {
+	.site-nav [aria-current],
+	.post-meta,
+	.post-item-description,
+	.post-item time {
+		color: $gray-400;
+	}
+
+	.tag {
+		background-color: $gray-600;
+		color: $gray-300;
+
+		&:hover {
+			background-color: $gray-700;
+			color: $gray-200;
+		}
+	}
 }
 
 // Code blocks: Shiki's css-variables theme (astro.config.mjs) with Nextra's palette, light then dark
@@ -59,11 +160,39 @@ html.dark {
 	--astro-code-token-punctuation: #bbb;
 }
 
+// Inline code: Nextra's MDX <code> utilities (nx-border nx-rounded-md nx-py-0.5 nx-px-[.25em] nx-text-[.9em] ...)
+.page :not(pre) > code {
+	overflow-wrap: break-word;
+	border: 1px solid rgb(0 0 0 / 4%);
+	border-radius: 0.375rem;
+	background-color: rgb(0 0 0 / 3%);
+	padding: 0.125rem 0.25em;
+
+	@media (min-width: $md) {
+		font-size: 0.9em;
+	}
+}
+
+html.dark .page :not(pre) > code {
+	border-color: rgb(255 255 255 / 10%);
+	background-color: rgb(255 255 255 / 10%);
+}
+
+// Code blocks: Nextra's <pre> (nx-mb-4 nx-rounded-xl nx-py-4 nx-text-[.9em]); measured on production, the gap above
+// is just the previous paragraph's margin. Lines carry the horizontal padding (nextra.css `pre code .line`), the inner <code> is .9em on 1.25rem.
 pre.astro-code {
-	margin: 1.5rem 0 1rem;
-	padding: 1rem;
+	margin-top: 0;
+	margin-bottom: 1rem;
 	border-radius: 0.75rem;
-	font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
-	font-size: 0.875rem;
-	line-height: 1.25rem;
+	padding: 1rem 0;
+	font-size: 0.9em;
+
+	@media (min-width: $md) {
+		line-height: 1.75;
+	}
+
+	> code {
+		font-size: 0.9em;
+		line-height: 1.25rem;
+	}
 }

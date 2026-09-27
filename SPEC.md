@@ -33,7 +33,7 @@ These were checked against production on 2026-09-27.
 - **Post header:** `<author>, ` (only if frontmatter has `author`), `<time>` as `Mon Jan 17 2022`, `•`, tag pills; right side: "Back" and the toggle.
 - **Post list** (`/posts`, tag pages): `<h3>` title link, description + "Read More →", date. Live omits the description for the Web Unleashed post even though it has one (a Nextra quirk); the port **shows it**, which is consistent with the other posts.
 - **Theme:** light and dark. Dark mode is applied with `html.dark`, follows the OS setting by default, has a toggle, and the visitor's choice persists.
-- **Styles:** `styles/main.scss` is carried over unchanged. Its `.prose`, `.prose a` and `.nav-line .nav-link` rules match no live markup (Nextra's classes are `nx-*`), so they have never applied; the port avoids those class names to keep parity.
+- **Styles:** `styles/main.scss` is carried over unchanged, loaded last, after the vendored Nextra CSS (`src/styles/nextra.css`, generated from production's compiled CSS) and `base.scss`, the same cascade production had. Its `.prose`, `.prose a` and `.nav-line .nav-link` rules match no live markup (Nextra's classes are `nx-*`), so they have never applied; the port avoids those class names to keep parity.
 - **Punctuation:** straight quotes and `--` as typed. Astro 7's Sätteri turns smart punctuation on by default, so it is disabled. Nextra's own base styles (prose, layout, nav) have to be rebuilt to match.
 
 ### Defects fixed during the migration
