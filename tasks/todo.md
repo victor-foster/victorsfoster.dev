@@ -280,17 +280,19 @@ Plan: [`plan.md`](plan.md) · Spec: [`SPEC.md`](../SPEC.md)
 **Description:** A 1200×630 default share image in the site's style.
 
 **Acceptance criteria:**
-- [ ] `scripts/og-image.html` (committed) renders the name and "UI Engineer" in Vollkorn/Open Sans on the site gradient; `public/og-image.png` is produced with headless Chrome at 1200×630
-- [ ] Pages without their own image point og:image/twitter:image at `https://www.victorfoster.dev/og-image.png`
+- [x] `scripts/og-image.html` (committed) renders the name and "UI Engineer" in Vollkorn/Open Sans on the site gradient; `public/og-image.png` is produced with headless Chrome at 1200×630
+- [x] Pages without their own image point og:image/twitter:image at `https://www.victorfoster.dev/og-image.png`
 
 **Verification:**
-- [ ] `sips -g pixelWidth -g pixelHeight public/og-image.png` → 1200×630
-- [ ] `npm run verify`: the og:image check passes
-- [ ] Manual check: **Victor approves the image**
+- [x] `sips -g pixelWidth -g pixelHeight public/og-image.png` → 1200×630
+- [x] `npm run verify`: the og:image check passes
+- [ ] Manual check: **Victor approves the image** (in the draft PR)
 
 **Dependencies:** T3
 **Files:** `scripts/og-image.html`, `public/og-image.png`, `src/components/Head.astro`
 **Scope:** S
+
+**Result:** name (Vollkorn 600), "UI Engineer" and victorfoster.dev (Open Sans) on the site's light gradient; 1200×630, 37 KB. The regenerate command is in the HTML's header comment (the one-off render loads Google Fonts; the image is static). `npm run verify`: **209/209**.
 
 ### T12: GA4
 

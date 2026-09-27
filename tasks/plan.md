@@ -75,7 +75,7 @@ T6b, T10, T11 and T12 depend only on T3/T4 and can be done in any order. T7, T8 
 - [ ] `verify` passes for every route and the feed; all page types match the baseline. **Victor reviews.**
 
 ### Phase 4: Fixes and ship
-- [ ] T11: Default OG image
+- [x] T11: Default OG image
 - [ ] T12: GA4 (production only, driven by an env var)
 - [ ] T13: Vercel preview deploy and URL checks against it
 - [ ] T14: Production cutover (merge to `main`) and post-launch checks
