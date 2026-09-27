@@ -31,18 +31,21 @@ Plan: [`plan.md`](plan.md) · Spec: [`SPEC.md`](../SPEC.md)
 **Description:** Remove Next/Nextra/React and their config, then scaffold Astro with MDX, the spec's URL config, and a branch-scoped `vercel.json`. The goal is for a placeholder page to build.
 
 **Acceptance criteria:**
-- [ ] `package.json` has no `next*`, `nextra*`, `react*` or `@next/*` packages; it has `astro`, `@astrojs/mdx`, `@astrojs/check`, `typescript`, `sass` and `sanitize.css`; the scripts are `dev`/`build`/`preview`/`verify`; `yarn.lock` is replaced by `package-lock.json`
-- [ ] `astro.config.mjs` sets `site: 'https://www.victorfoster.dev'`, `trailingSlash: 'never'`, `build.format: 'file'` and the mdx integration; `tsconfig.json` extends `astro/tsconfigs/strict`
-- [ ] `vercel.json` has `framework: "astro"`, `buildCommand`, `outputDirectory: "dist"`, `cleanUrls: true` and `trailingSlash: false`
-- [ ] Deleted: `next.config.js`, `next-env.d.ts`, `theme.config.jsx`, `pages/_app.tsx`, `pages/_document.tsx`, `yarn.lock`, and the `analyze` script. ESLint and Prettier are left alone until T2b. Content `.mdx` files stay where they are until their own tasks
+- [x] `package.json` has no `next*`, `nextra*`, `react*` or `@next/*` packages; it has `astro`, `@astrojs/mdx`, `@astrojs/check`, `typescript`, `sass` and `sanitize.css`; the scripts are `dev`/`build`/`preview`/`verify`; `yarn.lock` is replaced by `package-lock.json`
+- [x] `astro.config.mjs` sets `site: 'https://www.victorfoster.dev'`, `trailingSlash: 'never'`, `build.format: 'file'` and the mdx integration; `tsconfig.json` extends `astro/tsconfigs/strict`
+- [x] `vercel.json` has `framework: "astro"`, `buildCommand`, `outputDirectory: "dist"`, `cleanUrls: true` and `trailingSlash: false`
+- [x] Deleted: `next.config.js`, `next-env.d.ts`, `theme.config.jsx`, `pages/_app.tsx`, `pages/_document.tsx`, `yarn.lock`, and the `analyze` script. ESLint and Prettier are left alone until T2b. Content `.mdx` files stay where they are until their own tasks
 
 **Verification:**
-- [ ] `npm run build` succeeds (`astro check` 0 errors) and writes `dist/index.html`
-- [ ] `npm run dev` serves the placeholder at `http://localhost:4321/`
+- [x] `npm run build` succeeds (`astro check` 0 errors) and writes `dist/index.html`
+- [x] `npm run dev` serves the placeholder at `http://localhost:4321/`
 
 **Dependencies:** T1
 **Files:** `package.json`, `package-lock.json`, `yarn.lock` (deleted), `astro.config.mjs`, `tsconfig.json`, `vercel.json`, `.gitignore`, plus the deletions above
 **Scope:** M (mostly deletions and config)
+
+**Result:** Astro 7.3.5, @astrojs/mdx 8.0.2, @astrojs/check 0.9.10, TypeScript 6 (`@astrojs/check` peer range is `^5 || ^6`, so not TS 7). Also added `engines.node: ">=22.12.0"` (Astro's requirement); Vercel docs say `engines` overrides the project's Node setting, so the branch builds on Node 24.x without touching the dashboard. npm 11 blocked install scripts for esbuild, @parcel/watcher and fsevents; they're left unapproved because the build doesn't need them. `astro check`: 0 errors and 2 hints, both in files outside this task's scope (`postcss.config.js`, `scripts/gen-rss.mjs`, which T9 removes).
+**Astro 7 notes for later tasks:** Markdown now defaults to the Sätteri pipeline, and rehype plugins need `@astrojs/markdown-remark` + `markdown.processor: unified()` (affects T6b and T7). `compressHTML` now defaults to `'jsx'` whitespace rules (watch inline spacing in T6).
 
 ### T2b: Lint and format tooling
 
