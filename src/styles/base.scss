@@ -12,3 +12,39 @@
 	white-space: nowrap;
 	border-width: 0;
 }
+
+// Code blocks: Shiki's css-variables theme (astro.config.mjs) with Nextra's palette, light then dark
+:root {
+	--astro-code-foreground: #414141;
+	--astro-code-background: #1d4ed80d;
+	--astro-code-token-constant: #1976d2;
+	--astro-code-token-string: #22863a;
+	--astro-code-token-comment: #aaa;
+	--astro-code-token-keyword: #d32f2f;
+	--astro-code-token-parameter: #ff9801;
+	--astro-code-token-function: #6f42c1;
+	--astro-code-token-string-expression: var(--astro-code-token-string);
+	--astro-code-token-punctuation: #212121;
+	--astro-code-token-link: var(--astro-code-token-string);
+}
+
+html.dark {
+	--astro-code-foreground: #d1d1d1;
+	--astro-code-background: #93c5fd1a;
+	--astro-code-token-constant: #79b8ff;
+	--astro-code-token-string: #ffab70;
+	--astro-code-token-comment: #6b737c;
+	--astro-code-token-keyword: #f97583;
+	--astro-code-token-function: #b392f0;
+	--astro-code-token-string-expression: #4bb74a;
+	--astro-code-token-punctuation: #bbb;
+}
+
+pre.astro-code {
+	margin: 1.5rem 0 1rem;
+	padding: 1rem;
+	border-radius: 0.75rem;
+	font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+	font-size: 0.875rem;
+	line-height: 1.25rem;
+}

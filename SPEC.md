@@ -52,7 +52,7 @@ These were checked against production on 2026-09-27.
 - `@astrojs/markdown-satteri` (Astro 7's default Markdown processor, made explicit to disable smart punctuation and add hast plugins; `markdown.smartypants` is deprecated)
 - Astro Fonts API (built in) for self-hosted Open Sans/Vollkorn
 - `@astrojs/rss` for `/feed.xml`, replacing `scripts/gen-rss.mjs`, `rss` and `gray-matter`
-- Shiki (built into Astro) with dual light/dark themes for code blocks, replacing `prismjs` and `prism-react-renderer`
+- Shiki (built into Astro) with the `css-variables` theme and Nextra's exact light/dark token palette (`--astro-code-*` in `base.scss`, dark under `html.dark`), replacing `prismjs` and `prism-react-renderer`
 - `sass`, which Astro supports without a plugin, and `sanitize.css`
 - TypeScript (strict) and `astro check` (dev dependencies `@astrojs/check`, `typescript`)
 - Package manager: npm (`package-lock.json`, replacing `yarn.lock`; yarn isn't installed and Node 26 no longer ships corepack)
@@ -113,7 +113,7 @@ src/
   styles/main.scss         → moved from styles/, content unchanged
   styles/base.scss         → rebuilt Nextra base styles (layout, nav, prose)
 public/                    → unchanged (favicon, images) + new og-image.png
-astro.config.mjs           → site, trailingSlash, build.format, integrations, Shiki themes
+astro.config.mjs           → site, trailingSlash, build.format, markdown (Sätteri, Shiki), fonts, integrations
 vercel.json                → cleanUrls + trailingSlash
 scripts/check-routes.mjs   → post-build verification
 draft/                     → unchanged, not built

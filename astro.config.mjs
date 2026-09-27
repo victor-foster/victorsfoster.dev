@@ -17,6 +17,9 @@ export default defineConfig({
 		// production (Nextra) kept straight quotes and `--` as typed.
 		// https://docs.astro.build/en/guides/markdown-content/ (satteri features)
 		processor: satteri({ features: { smartPunctuation: false }, hastPlugins: [externalLinks] }),
+		// Nextra used Shiki's css-variables theme with its own light/dark palette (see src/styles/base.scss).
+		// https://docs.astro.build/en/guides/syntax-highlighting/
+		shikiConfig: { theme: 'css-variables' },
 	},
 	// Self-hosted, preloaded fonts with metric-matched fallbacks; loading them from Google at runtime
 	// shifted the layout on swap (CLS 0.366). Weights match production's Google Fonts URL.

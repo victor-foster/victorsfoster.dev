@@ -187,16 +187,19 @@ Plan: [`plan.md`](plan.md) · Spec: [`SPEC.md`](../SPEC.md)
 **Description:** Shiki with light and dark themes, following the site theme through `html.dark`.
 
 **Acceptance criteria:**
-- [ ] Highlighting is configured the documented Astro 7 way (check first: `shikiConfig` vs Sätteri's `satteriHighlightPlugin`), with `{ light, dark }` themes; CSS switches to the dark variables under `html.dark`
-- [ ] Code blocks are readable in both themes and match the baseline block styling (background, radius, padding, font size)
+- [x] Highlighting is configured the documented Astro 7 way (check first: `shikiConfig` vs Sätteri's `satteriHighlightPlugin`), with `{ light, dark }` themes; CSS switches to the dark variables under `html.dark`
+- [ ] Code blocks are readable in both themes (light ✅; dark checked in T5, when `html.dark` exists) and match the baseline block styling (background, radius, padding, font size)
 
 **Verification:**
 - [ ] Manual check: the CSS custom properties post in both themes vs `tasks/baseline/post-*`
-- [ ] `npm run build` is clean
+- [x] `npm run build` is clean
 
 **Dependencies:** T6
 **Files:** `astro.config.mjs`, `src/styles/base.scss`
 **Scope:** XS
+
+**Result:** production used Shiki's `css-variables` theme with Nextra's palette (`--shiki-*` on `:root`/`.dark`). `markdown.shikiConfig: { theme: 'css-variables' }` still applies under Sätteri, and Astro emits `--astro-code-*` variables, so Nextra's exact hex values are mapped into `base.scss` (light on `:root`, dark on `html.dark`) with the same block box (1rem padding, 0.75rem radius, 0.875rem/1.25rem monospace, tinted background via `--astro-code-background`, so no `!important` against the inline style). Light-mode screenshots at 1280 and 375 match the baseline colors.
+**Process note:** Astro 7's `astro preview` runs as a background daemon; stop it with `npx astro preview stop`, not `pkill`. A stale `astro dev` from T2 was found holding port 4321 and killed.
 
 ## Checkpoint C1: Posts
 - [ ] `npm run lint && npm run build && npm run verify` pass for `/` and all 3 posts
