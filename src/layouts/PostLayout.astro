@@ -1,6 +1,7 @@
 ---
 import type { CollectionEntry } from 'astro:content';
 import BaseLayout from './BaseLayout.astro';
+import ThemeToggle from '../components/ThemeToggle.astro';
 import { formatPostDate } from '../lib/date';
 
 interface Props {
@@ -24,6 +25,7 @@ const { title, description, image, date, tag: tags, author } = Astro.props.post.
 		</div>
 		<div class='post-actions'>
 			<a href='/posts'>Back</a>
+			<ThemeToggle />
 		</div>
 	</div>
 	<slot />

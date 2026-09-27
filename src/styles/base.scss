@@ -178,6 +178,23 @@ html.dark .page :not(pre) > code {
 	background-color: rgb(255 255 255 / 10%);
 }
 
+// Theme toggle: nx-cursor-pointer nx-p-2 nx-text-current; sun in light, moon in dark
+.theme-toggle {
+	display: block;
+	cursor: pointer;
+	padding: 0.5rem;
+	color: currentColor;
+}
+
+.theme-toggle-moon,
+html.dark .theme-toggle-sun {
+	display: none;
+}
+
+html.dark .theme-toggle-moon {
+	display: block;
+}
+
 // Code blocks: Nextra's <pre> (nx-mb-4 nx-rounded-xl nx-py-4 nx-text-[.9em]); measured on production, the gap above
 // is just the previous paragraph's margin. Lines carry the horizontal padding (nextra.css `pre code .line`), the inner <code> is .9em on 1.25rem.
 pre.astro-code {

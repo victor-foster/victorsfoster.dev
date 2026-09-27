@@ -1,0 +1,63 @@
+---
+// Port of nextra-theme-blog's toggle: sun in light mode, moon in dark (icons swap in CSS, see base.scss).
+// Stores 'light' | 'dark' under localStorage `theme`, the key next-themes used, so returning visitors keep their choice.
+---
+
+<button type='button' class='theme-toggle' aria-label='Toggle Dark Mode'>
+	<svg class='theme-toggle-sun' fill='none' viewBox='3 3 18 18' width='12' height='12' stroke='currentColor'>
+		<path
+			stroke-linecap='round'
+			stroke-linejoin='round'
+			stroke-width='2'
+			fill='currentColor'
+			d='M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z'
+		></path>
+	</svg>
+	<svg class='theme-toggle-moon' fill='none' viewBox='2 2 20 20' width='12' height='12' stroke='currentColor'>
+		<path
+			stroke-linecap='round'
+			stroke-linejoin='round'
+			stroke-width='2'
+			fill='currentColor'
+			d='M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z'
+		></path>
+	</svg>
+</button>
+
+<script>
+	// Initial theme is set before paint by the inline script in Head.astro; this handles changes.
+	const root = document.documentElement;
+	const DARK = '(prefers-color-scheme: dark)';
+
+	function apply(theme: 'light' | 'dark') {
+		root.classList.remove('light', 'dark');
+		root.classList.add(theme);
+		root.style.colorScheme = theme;
+	}
+
+	function stored() {
+		try {
+			return localStorage.getItem('theme');
+		} catch {
+			return null;
+		}
+	}
+
+	for (const button of document.querySelectorAll('.theme-toggle')) {
+		button.addEventListener('click', () => {
+			const next = root.classList.contains('dark') ? 'light' : 'dark';
+			apply(next);
+			try {
+				localStorage.setItem('theme', next);
+			} catch {
+				// Storage blocked (private mode): the toggle still works for this page view.
+			}
+		});
+	}
+
+	// Follow the OS while the visitor hasn't picked a theme (next-themes' 'system').
+	window.matchMedia(DARK).addEventListener('change', (event) => {
+		const theme = stored();
+		if (!theme || theme === 'system') apply(event.matches ? 'dark' : 'light');
+	});
+</script>

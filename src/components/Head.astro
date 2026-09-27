@@ -19,6 +19,24 @@ const ogImage = image ? new URL(image, Astro.site).href : new URL('/og-image.png
 
 <meta charset='utf-8' />
 <meta name='viewport' content='width=device-width' />
+<!--
+	Set the theme before first paint (no flash), with the same logic and localStorage key as the next-themes script
+	production used: stored 'light' | 'dark' wins, otherwise follow the OS. is:inline keeps it render-blocking and unbundled.
+	https://docs.astro.build/en/guides/client-side-scripts/
+-->
+<script is:inline>
+	(function () {
+		var root = document.documentElement;
+		try {
+			var theme = localStorage.getItem('theme');
+			if (theme !== 'light' && theme !== 'dark') {
+				theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+			}
+			root.classList.add(theme);
+			root.style.colorScheme = theme;
+		} catch (e) {}
+	})();
+</script>
 <title>{title}</title>
 <meta name='description' content={description} />
 <link rel='canonical' href={canonicalUrl} />

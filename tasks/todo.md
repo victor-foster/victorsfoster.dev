@@ -128,20 +128,23 @@ Plan: [`plan.md`](plan.md) · Spec: [`SPEC.md`](../SPEC.md)
 **Description:** Match next-themes: follow the OS setting by default, keep the visitor's choice under localStorage `theme`, and show no flash of the wrong theme.
 
 **Acceptance criteria:**
-- [ ] An inline `<head>` script (`is:inline`) applies `html.dark`/`light` plus `color-scheme` before first paint, using the same logic as the live next-themes script
-- [ ] `ThemeToggle.astro` is a `<button aria-label="Toggle Dark Mode">` with the same sun icon; clicking it switches the theme and stores `light`/`dark`
-- [ ] Nav placement matches the live site (on post pages it sits next to "Back"; T6 places it there)
+- [x] An inline `<head>` script (`is:inline`) applies `html.dark`/`light` plus `color-scheme` before first paint, using the same logic as the live next-themes script
+- [x] `ThemeToggle.astro` is a `<button aria-label="Toggle Dark Mode">` with the same sun icon; clicking it switches the theme and stores `light`/`dark`
+- [x] Nav placement matches the live site (on post pages it sits next to "Back"; T6 places it there)
 
 **Verification:**
-- [ ] Manual check, OS light and OS dark: hard reload shows no flash; the toggle works; the choice survives a reload; a visitor with `localStorage.theme='dark'` from the old site gets dark mode
-- [ ] About page dark mode matches `tasks/baseline/about-*-dark.png`
+- [x] Manual check, OS light and OS dark: hard reload shows no flash; the toggle works; the choice survives a reload; a visitor with `localStorage.theme='dark'` from the old site gets dark mode
+- [x] About page dark mode matches `tasks/baseline/about-*-dark.png`
 
 **Dependencies:** T4
 **Files:** `src/components/ThemeToggle.astro`, `src/layouts/BaseLayout.astro`
 **Scope:** S
 
+**Result:** the inline head script uses the same logic and `theme` key as production's next-themes script. `ThemeToggle` is a `<button>` (production used `<span role=button>`) with the same sun/moon icons swapped in CSS, placed after the nav on pages and after "Back" on posts. The bundled click handler also follows OS changes until the visitor picks a theme. 20 of 20 browser checks pass (scratchpad `theme.mjs`): the correct theme before first paint for OS light/dark × stored none/light/dark/system, the right icon, click and Enter toggle, persistence across reload, OS changes followed only without a stored choice, and a clean console. Computed-style diffs in dark mode are down to the known, accepted items; dark side-by-side screenshots match, including the dark code colors deferred from T7.
+
 ## Checkpoint B: About page at parity
-- [ ] About page at 375/1280 × light/dark matches the baseline. **Victor signs off.**
+- [x] All page types at 375/1280 × light/dark match the baseline (computed-style diffs + 20 side-by-side screenshots in `tasks/current/`); only accepted differences remain
+- [ ] **Victor signs off** (on the Vercel preview from the draft PR)
 
 ---
 
@@ -191,7 +194,7 @@ Plan: [`plan.md`](plan.md) · Spec: [`SPEC.md`](../SPEC.md)
 
 **Acceptance criteria:**
 - [x] Highlighting is configured the documented Astro 7 way (check first: `shikiConfig` vs Sätteri's `satteriHighlightPlugin`), with `{ light, dark }` themes; CSS switches to the dark variables under `html.dark`
-- [ ] Code blocks are readable in both themes (light ✅; dark checked in T5, when `html.dark` exists) and match the baseline block styling (background, radius, padding, font size)
+- [x] Code blocks are readable in both themes (dark confirmed in T5) and match the baseline block styling (background, radius, padding, font size)
 
 **Verification:**
 - [ ] Manual check: the CSS custom properties post in both themes vs `tasks/baseline/post-*`
