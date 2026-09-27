@@ -320,7 +320,7 @@ Plan: [`plan.md`](plan.md) · Spec: [`SPEC.md`](../SPEC.md)
 **Acceptance criteria:**
 - [ ] The preview build uses the Astro settings from `vercel.json`, and the production deployment is untouched
 - [ ] On the preview URL: every spec route returns 200; `/posts/`, `/posts.html` and `/tags/web%20development/` each 308 to the path with no slash or extension; `/feed.xml` and `/og-image.png` return 200
-- [ ] README updated with the new commands
+- [x] README updated with the new commands
 
 **Verification:**
 - [ ] A curl loop over the route list against the preview URL (if Vercel preview protection blocks curl, Victor runs it or shares a bypass token)
