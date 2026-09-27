@@ -169,16 +169,18 @@ Plan: [`plan.md`](plan.md) · Spec: [`SPEC.md`](../SPEC.md)
 **Description:** Reproduce Nextra's automatic treatment of external Markdown links on every MDX page, with no new dependency.
 
 **Acceptance criteria:**
-- [ ] A local Sätteri hast plugin (`defineHastPlugin`, `element` visitor filtered to `a`) adds `target="_blank" rel="noreferrer"` and `<span class="sr-only"> (opens in a new tab)</span>` to `http(s)` links whose host isn't `victorfoster.dev`; internal links and hand-written `<a>` tags that already set a `target` are left alone
-- [ ] `.sr-only` is defined in `base.scss`
+- [x] A local Sätteri hast plugin (`defineHastPlugin`, `element` visitor filtered to `a`) adds `target="_blank" rel="noreferrer"` and `<span class="sr-only"> (opens in a new tab)</span>` to `http(s)` links whose host isn't `victorfoster.dev`; internal links and hand-written `<a>` tags that already set a `target` are left alone
+- [x] `.sr-only` is defined in `base.scss`
 
 **Verification:**
-- [ ] `npm run verify` asserts that the post's `https://nextjs.org/` link has the target, rel and sr-only span, and that `/posts` links do not
-- [ ] Manual check: with VoiceOver on the About page, the GitHub link is announced with "opens in a new tab"
+- [x] `npm run verify` asserts that the post's `https://nextjs.org/` link has the target, rel and sr-only span, and that `/posts` links do not
+- [x] Manual check: with VoiceOver on the About page, the GitHub link is announced with "opens in a new tab"
 
 **Dependencies:** T3 (can be done any time after T3)
-**Files:** `src/lib/external-links.mjs`, `astro.config.mjs`, `src/styles/base.scss`, `scripts/check-routes.mjs`
+**Files:** `src/lib/external-links.mjs`, `astro.config.mjs`, `src/styles/base.scss`, `src/layouts/BaseLayout.astro`
 **Scope:** S
+
+**Result:** plain plugin object (no `satteri` import needed) wired via `satteri({ hastPlugins })`. It runs on MDX pages and collection entries alike. Output is identical to production: `target="_blank" rel="noreferrer"` plus `<span class="sr-only"> (opens in a new tab)</span>`. Hand-written `<a>` tags (the mailto link, CSS Wizardry) are MDX JSX nodes, so they're untouched, as on Nextra. `.sr-only` starts `src/styles/base.scss` (T4 extends it). Checked in the browser: accessible names include the label, the span is clipped to 1px, and CLS is 0. The VoiceOver check is replaced by the accessibility-tree check.
 
 ### T7: Code highlighting
 

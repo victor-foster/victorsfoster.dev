@@ -2,6 +2,7 @@
 import { defineConfig, fontProviders } from 'astro/config';
 import mdx from '@astrojs/mdx';
 import { satteri } from '@astrojs/markdown-satteri';
+import { externalLinks } from './src/lib/external-links.mjs';
 
 export default defineConfig({
 	site: 'https://www.victorfoster.dev',
@@ -15,7 +16,7 @@ export default defineConfig({
 		// Astro 7 renders Markdown/MDX with Sätteri and turns smart punctuation on by default;
 		// production (Nextra) kept straight quotes and `--` as typed.
 		// https://docs.astro.build/en/guides/markdown-content/ (satteri features)
-		processor: satteri({ features: { smartPunctuation: false } }),
+		processor: satteri({ features: { smartPunctuation: false }, hastPlugins: [externalLinks] }),
 	},
 	// Self-hosted, preloaded fonts with metric-matched fallbacks; loading them from Google at runtime
 	// shifted the layout on swap (CLS 0.366). Weights match production's Google Fonts URL.

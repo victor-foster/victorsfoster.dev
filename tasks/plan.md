@@ -61,7 +61,7 @@ T6b, T10, T11 and T12 depend only on T3/T4 and can be done in any order. T7, T8 
 
 ### Phase 3: Content
 - [x] T6: Posts collection, post layout, and post pages
-- [ ] T6b: External link handling (local Sätteri hast plugin)
+- [x] T6b: External link handling (local Sätteri hast plugin)
 - [ ] T7: Code highlighting (verify Sätteri's highlight plugin; dual themes)
 
 ### Checkpoint C1: Posts
