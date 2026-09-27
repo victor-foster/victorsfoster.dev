@@ -52,7 +52,7 @@ These were checked against production on 2026-09-27.
 - `sass`, which Astro supports without a plugin, and `sanitize.css`
 - TypeScript (strict) and `astro check` (dev dependencies `@astrojs/check`, `typescript`)
 - Package manager: npm (`package-lock.json`, replacing `yarn.lock`; yarn isn't installed and Node 26 no longer ships corepack)
-- Lint and format: ESLint 9 (flat config) + `eslint-plugin-astro` + `eslint-config-prettier`; Prettier 3 + `prettier-plugin-astro`
+- Lint and format: ESLint 10 (flat config) + `eslint-plugin-astro` (requires ESLint ≥10) + `typescript-eslint` (the plugin docs require it for TypeScript in `.astro`) + `eslint-config-prettier`; Prettier 3 + `prettier-plugin-astro`
 
 ### Hosting and URLs
 
@@ -74,7 +74,7 @@ build: { format: 'file' }, // dist/posts.html, dist/tags/web development.html
 
 Result: `/posts` serves `posts.html`. `/posts/` and `/posts.html` both 308-redirect to `/posts`, which matches production today. Everything else uses Astro's defaults. Tag routes use the raw tag as the param, the same pattern as Astro's own blog tutorial, which keeps `/tags/web%20development`.
 
-**Removed:** `next`, `nextra`, `nextra-theme-blog`, `next-compose-plugins`, `react`, `react-dom`, `react-embed` (unused), `@next/bundle-analyzer`, `eslint-config-next`, `.eslintrc` (replaced by `eslint.config.mjs`), `yarn.lock`, `@types/gtag.js`, `next.config.js`, `next-env.d.ts`, `theme.config.jsx`, `pages/`.
+**Removed:** `next`, `nextra`, `nextra-theme-blog`, `next-compose-plugins`, `react`, `react-dom`, `react-embed` (unused), `@next/bundle-analyzer`, `eslint-config-next`, `.eslintrc` (replaced by `eslint.config.mjs`), `yarn.lock`, `prettier-stylelint` (abandoned; the source of all 29 `npm audit` findings), `@types/gtag.js`, `next.config.js`, `next-env.d.ts`, `theme.config.jsx`, `pages/`.
 
 ## Commands
 

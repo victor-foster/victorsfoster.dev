@@ -44,7 +44,7 @@ T6b, T10, T11 and T12 depend only on T3/T4 and can be done in any order. T7, T8 
 ### Phase 1: Foundation
 - [x] T1: Capture live baseline and write `check-routes.mjs` (fails)
 - [x] T2: Swap toolchain: remove Next, scaffold Astro, add `vercel.json`
-- [ ] T2b: ESLint 9 + eslint-plugin-astro, Prettier 3 + prettier-plugin-astro
+- [x] T2b: ESLint 10 + eslint-plugin-astro, Prettier 3 + prettier-plugin-astro
 - [ ] T3: BaseLayout, Head (meta), nav, and the About page
 
 ### Checkpoint A: Foundation
@@ -96,8 +96,8 @@ T6b, T10, T11 and T12 depend only on T3/T4 and can be done in any order. T7, T8 
 ## Decisions (2026-09-27)
 
 - Package manager: **npm** (yarn isn't installed; Vercel detects `package-lock.json`)
-- ESLint: **ESLint 9 + `eslint-plugin-astro`** (T2b)
-- Prettier: **Prettier 3 + `prettier-plugin-astro`** (T2b). Risk: `stylelint-prettier`/`prettier-stylelint` may need bumps; T2b stops and asks if so
+- ESLint: **ESLint 10 + `eslint-plugin-astro`** (T2b; the plugin's 3.x release requires ESLint ≥10)
+- Prettier: **Prettier 3 + `prettier-plugin-astro`** (T2b). No stylelint conflict: `stylelint-prettier@2` accepts `prettier >=2`
 
 - GA4 measurement ID: `G-W1DDP3CRYE`. It goes in the Vercel env var, not in the code; Google's pasted snippet is rebuilt as `Analytics.astro` in T12
 

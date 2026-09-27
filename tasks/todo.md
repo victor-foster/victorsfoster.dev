@@ -49,20 +49,23 @@ Plan: [`plan.md`](plan.md) · Spec: [`SPEC.md`](../SPEC.md)
 
 ### T2b: Lint and format tooling
 
-**Description:** Replace the Next ESLint config with ESLint 9 + `eslint-plugin-astro`, and upgrade to Prettier 3 + `prettier-plugin-astro`, keeping the current formatting rules.
+**Description:** Replace the Next ESLint config with ESLint 10 + `eslint-plugin-astro`, and upgrade to Prettier 3 + `prettier-plugin-astro`, keeping the current formatting rules.
 
 **Acceptance criteria:**
-- [ ] `eslint.config.mjs` (flat config) uses `eslint-plugin-astro` recommended + `eslint-config-prettier`, and keeps `prefer-const: error`; `.eslintrc` is deleted; `npm run lint` runs `eslint .`
-- [ ] Prettier 3 + `prettier-plugin-astro`; `.prettierrc` keeps its current options and adds the plugin and an `*.astro` parser override; `npm run format` runs `prettier --write .`
-- [ ] The broken `fix-code`/`fix-styles` scripts (which point at a `src/` that never existed) are removed. If `stylelint-prettier`/`prettier-stylelint` conflict with Prettier 3 as peer dependencies, **stop and ask**; don't silently drop stylelint
+- [x] `eslint.config.mjs` (flat config) uses `eslint-plugin-astro` recommended + `eslint-config-prettier`, and keeps `prefer-const: error`; `.eslintrc` is deleted; `npm run lint` runs `eslint .`
+- [x] Prettier 3 + `prettier-plugin-astro`; `.prettierrc` keeps its current options and adds the plugin and an `*.astro` parser override; `npm run format` runs `prettier --write .`
+- [x] The broken `fix-code`/`fix-styles` scripts (which point at a `src/` that never existed) are removed. If `stylelint-prettier`/`prettier-stylelint` conflict with Prettier 3 as peer dependencies, **stop and ask**; don't silently drop stylelint
 
 **Verification:**
-- [ ] `npm run lint` exits 0 on the placeholder page
-- [ ] `npm run format -- --check` exits 0 on `.astro` files; `npm ls prettier` shows no peer dependency errors
+- [x] `npm run lint` exits 0 on the placeholder page
+- [x] `npm run format -- --check` exits 0 on `.astro` files; `npm ls prettier` shows no peer dependency errors
 
 **Dependencies:** T2
 **Files:** `eslint.config.mjs`, `.eslintrc` (deleted), `.prettierrc`, `package.json`, `package-lock.json`
 **Scope:** S
+
+**Result:** ESLint 10.11 + eslint-plugin-astro 3.2 + typescript-eslint 8.70 + eslint-config-prettier 10 (`/flat`); Prettier 3.9 + prettier-plugin-astro 1.1. A negative test (a `let` in `.astro` TypeScript frontmatter) fails lint as expected. No stylelint peer conflict. Removed `prettier-stylelint`: it was used only by the deleted `fix-styles` script and was the source of all 29 `npm audit` findings (18 high); the audit now shows 0. `npm run format` was **not** run repo-wide, to avoid reformatting content; only files written in this task were formatted.
+**Noticed, not touching:** `.stylelintrc` only extends `stylelint-prettier/recommended`; `stylelint-config-prettier` and `stylelint-config-sass-guidelines` look unused, and there's no stylelint script. A candidate for a later cleanup.
 
 ### T3: BaseLayout, Head, nav, and the About page
 
