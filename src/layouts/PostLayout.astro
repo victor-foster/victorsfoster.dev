@@ -1,0 +1,30 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import BaseLayout from './BaseLayout.astro';
+import { formatPostDate } from '../lib/date';
+
+interface Props {
+	post: CollectionEntry<'posts'>;
+}
+
+const { title, description, image, date, tag: tags, author } = Astro.props.post.data;
+---
+
+<BaseLayout title={title} description={description} image={image}>
+	<div class='page-header' slot='header'>
+		<div class='post-meta'>
+			{author && <span>{author},</span>}
+			<time datetime={date.toISOString()}>{formatPostDate(date)}</time>
+			{tags.length > 0 && <span class='post-meta-separator'>•</span>}
+			{tags.map((tag) => (
+				<a class='tag' href={`/tags/${encodeURIComponent(tag)}`}>
+					{tag}
+				</a>
+			))}
+		</div>
+		<div class='post-actions'>
+			<a href='/posts'>Back</a>
+		</div>
+	</div>
+	<slot />
+</BaseLayout>

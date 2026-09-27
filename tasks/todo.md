@@ -149,18 +149,20 @@ Plan: [`plan.md`](plan.md) · Spec: [`SPEC.md`](../SPEC.md)
 **Description:** Move the 3 posts into a typed content collection and render them at their unchanged slugs with a post header.
 
 **Acceptance criteria:**
-- [ ] `src/content.config.ts` defines the schema from the spec (`date` coerced, `tag` normalized to `string[]`); frontmatter dates are normalized to `YYYY-MM-DD`
-- [ ] Posts moved with `git mv` to `src/content/posts/`, keeping filenames; the unused `next/image` import is removed from the web-unleashed post; no wording changes
-- [ ] `PostLayout.astro` renders the header like the live site: author, `<time datetime>` formatted in UTC as `Mon Jan 17 2022`, `•`, tag pills linking to `/tags/<encoded tag>`, and "Back" → `/posts` (T5 adds the theme toggle next to "Back")
-- [ ] The dead first `# …` heading is deleted from each post (Victor's decision in T3)
+- [x] `src/content.config.ts` defines the schema from the spec (`date` coerced, `tag` normalized to `string[]`); frontmatter dates are normalized to `YYYY-MM-DD`
+- [x] Posts moved with `git mv` to `src/content/posts/`, keeping filenames; the unused `next/image` import is removed from the web-unleashed post; no wording changes
+- [x] `PostLayout.astro` renders the header like the live site: author, `<time datetime>` formatted in UTC as `Mon Jan 17 2022`, `•`, tag pills linking to `/tags/<encoded tag>`, and "Back" → `/posts` (T5 adds the theme toggle next to "Back")
+- [x] The dead first `# …` heading is deleted from each post (Victor's decision in T3)
 
 **Verification:**
-- [ ] `npm run build && npm run verify`: all 3 post routes pass, including the date text
-- [ ] Manual check: the web-unleashed post (2 tags) matches the baseline header
+- [x] `npm run build && npm run verify`: all 3 post routes pass, including the date text
+- [x] Manual check: the web-unleashed post (2 tags) matches the baseline header
 
 **Dependencies:** T3 (order change: content before T4/T5)
 **Files:** `src/content.config.ts`, `src/content/posts/*.mdx` (git mv), `src/pages/posts/[slug].astro`, `src/layouts/PostLayout.astro`
 **Scope:** M
+
+**Result:** 3 posts at their exact production URLs. The collection's default id lowercases (`how-i-setup-…`), so `generateId` keeps the filename as-is. Every post check passes (title, `<h1>`, meta, canonical, `datetime` identical to production, UTC date text, author only when set, tag links) except the external-link checks, which are T6b. Content edits are limited to date normalization, the dead first heading, and the unused `next/image` import. `BaseLayout` gained a named `header` slot that falls back to the nav (https://docs.astro.build/en/basics/astro-components/#fallback-content). Code blocks currently use Shiki's default `github-dark` theme (T7).
 
 ### T6b: External link handling
 
