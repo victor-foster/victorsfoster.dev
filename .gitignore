@@ -32,7 +32,6 @@ yarn-error.log*
 # vercel
 .vercel
 
-public/feed.xml
 # migration visual baselines (tasks/plan.md)
 tasks/baseline/
 tasks/current/

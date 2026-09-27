@@ -51,7 +51,7 @@ These were checked against production on 2026-09-27.
 - `@astrojs/mdx` for the MDX content
 - `@astrojs/markdown-satteri` (Astro 7's default Markdown processor, made explicit to disable smart punctuation and add hast plugins; `markdown.smartypants` is deprecated)
 - Astro Fonts API (built in) for self-hosted Open Sans/Vollkorn
-- `@astrojs/rss` for `/feed.xml`, replacing `scripts/gen-rss.mjs`, `rss` and `gray-matter`
+- `@astrojs/rss` for `/feed.xml` (with `trailingSlash: false`; author in `<dc:creator>`), replacing `scripts/gen-rss.mjs`, `rss` and `gray-matter`
 - Shiki (built into Astro) with the `css-variables` theme and Nextra's exact light/dark token palette (`--astro-code-*` in `base.scss`, dark under `html.dark`), replacing `prismjs` and `prism-react-renderer`
 - `sass`, which Astro supports without a plugin, and `sanitize.css`
 - TypeScript (strict) and `astro check` (dev dependencies `@astrojs/check`, `typescript`)

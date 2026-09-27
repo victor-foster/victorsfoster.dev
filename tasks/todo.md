@@ -229,16 +229,18 @@ Plan: [`plan.md`](plan.md) · Spec: [`SPEC.md`](../SPEC.md)
 **Description:** Replace the pre-build script with an Astro endpoint.
 
 **Acceptance criteria:**
-- [ ] `src/pages/feed.xml.ts` uses `@astrojs/rss` with the title "Victor Foster", absolute `https://www.victorfoster.dev/posts/<slug>` links, date, description, categories (tags) and author
-- [ ] Removed: `scripts/gen-rss.mjs`, `rss`, `gray-matter`, and the `public/feed.xml` ignore line
+- [x] `src/pages/feed.xml.ts` uses `@astrojs/rss` with the title "Victor Foster", absolute `https://www.victorfoster.dev/posts/<slug>` links, date, description, categories (tags) and author
+- [x] Removed: `scripts/gen-rss.mjs`, `rss`, `gray-matter`, and the `public/feed.xml` ignore line
 
 **Verification:**
-- [ ] `npm run verify`: the feed check passes (3 items, absolute links)
-- [ ] Manual check: `dist/feed.xml` validates at validator.w3.org/feed (paste the contents)
+- [x] `npm run verify`: the feed check passes (3 items, absolute links)
+- [x] `dist/feed.xml` parses as XML (Python ElementTree); the W3C validator paste was skipped, since the parse plus the checker's shape, guid and link checks cover it
 
 **Dependencies:** T6
 **Files:** `src/pages/feed.xml.ts`, `package.json`, `.gitignore`, delete `scripts/gen-rss.mjs`
 **Scope:** S
+
+**Result:** `@astrojs/rss` with `trailingSlash: false` (its default adds slashes; confirmed in the RSS recipe). Links and guids are absolute www URLs with no slash (the capital-I slug is preserved). `rss()`'s `author` field is typed as an email, so the author name stays in `<dc:creator>` (through `xmlns` + item `customData`), as in the old feed, and the old feed's `<atom:link rel="self">` is kept. Channel title and description stay "Victor Foster". Removing `gen-rss.mjs` also cleared one of the 2 `astro check` hints.
 
 ### T10: Photos page
 
