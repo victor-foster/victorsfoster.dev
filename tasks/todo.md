@@ -72,17 +72,24 @@ Plan: [`plan.md`](plan.md) · Spec: [`SPEC.md`](../SPEC.md)
 **Description:** A working first page. Port `_document`/`_app`/`theme.config` Head into Astro components, and move the About content to `src/pages/index.mdx`.
 
 **Acceptance criteria:**
-- [ ] `BaseLayout.astro` renders `lang="en"`, Google Fonts, `sanitize.css` + `main.scss` (moved to `src/styles/`, content unchanged), the RSS alternate link, `<Head>`, nav (About/Photos/Posts/RSS), and the footer
-- [ ] `Head.astro` ports every tag from `theme.config.jsx` with the same fallbacks; the canonical and og:url come from `Astro.site` + pathname
-- [ ] `/` renders the About content with `<title>About</title>`
+- [x] `BaseLayout.astro` renders `lang="en"`, Google Fonts, `sanitize.css` + `main.scss` (moved to `src/styles/`, content unchanged), the RSS alternate link, `<Head>`, nav (About/Photos/Posts/RSS), and the footer
+- [x] `Head.astro` ports every tag from `theme.config.jsx` with the same fallbacks; the canonical and og:url come from `Astro.site` + pathname
+- [x] `/` renders the About content with `<title>About</title>`
 
 **Verification:**
-- [ ] `npm run build && npm run verify`: every check for `/` passes; the other routes still fail
-- [ ] Manual check: `/` in dev shows all content and links working (the styling pass is T4)
+- [x] `npm run build && npm run verify`: every check for `/` passes; the other routes still fail
+- [x] Manual check: `/` in dev shows all content and links working (the styling pass is T4)
 
 **Dependencies:** T2b
 **Files:** `src/layouts/BaseLayout.astro`, `src/components/Head.astro`, `src/components/Nav.astro`, `src/pages/index.mdx` (git mv), `src/styles/main.scss` (git mv)
 **Scope:** M
+
+**Result:** `/` passes all 24 of its checks. Nav, `<h1>` and structure match the live markup. Deviations and additions:
+- The dead `# Victor Foster` line was deleted from the About MDX (Victor's decision).
+- Class names are `page`, `page-header` and `site-nav`, not `prose` or `nav-line`, because `main.scss` has never-applied rules for those names.
+- Added `@astrojs/markdown-satteri` as an explicit dependency (already installed through MDX) to set `smartPunctuation: false`. Astro 7 turned `I'm` into `I’m` and would turn `--primary-hue` into a dash.
+- `src/lib/path.ts` strips the `.html` that `build.format: 'file'` puts in `Astro.url.pathname`; Head (canonical) and Nav (current page) use it.
+- The nav renders as "PhotosPostsAbout" until T4 adds the flex gap (Astro 7's `compressHTML: 'jsx'` removes the whitespace between elements).
 
 ## Checkpoint A: Foundation
 - [ ] `npm run lint`, `build` and `verify` are clean for `/`

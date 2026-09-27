@@ -26,14 +26,15 @@ These were checked against production on 2026-09-27.
 
 - **URL shape:** no trailing slash. `/posts/` currently 308-redirects to `/posts`.
 - **Title:** `<title>` is the frontmatter `title` with no suffix.
-- **Page heading:** the `<h1>` is the frontmatter `title`. Nextra drops the MDX file's own first `# heading`: About shows "About", not "Victor Foster", and the CSS post shows its title, not "From Hue to You…". Keep this behavior; don't edit the content.
+- **Page heading:** the `<h1>` is the frontmatter `title`. Nextra drops the MDX file's own first `# heading`: About shows "About", not "Victor Foster", and the CSS post shows its title, not "From Hue to You…". Decision (2026-09-27): delete those dead `# …` lines from the MDX files instead of dropping them at build time; the rendered output is unchanged.
 - **Head on every page:** `lang="en"`; og:type/url/title/description/site_name/image(+width, height, alt); twitter:card/title/description/image/alt; canonical; RSS `<link rel="alternate">`; Google Fonts (Open Sans, Vollkorn 400/600).
 - **Description fallback:** `description || summary || 'Victor Foster - UI Engineer'`.
 - **Nav:** Photos, Posts, About, in that order, followed by the theme toggle and placed below the `<h1>`. The current page is plain text rather than a link. There's no RSS link in the nav (only the `<link rel="alternate">` in the head). Post pages show "Back" → `/posts` instead of the nav.
 - **Post header:** `<author>, ` (only if frontmatter has `author`), `<time>` as `Mon Jan 17 2022`, `•`, tag pills; right side: "Back" and the toggle.
 - **Post list** (`/posts`, tag pages): `<h3>` title link, description + "Read More →", date. Live omits the description for the Web Unleashed post even though it has one (a Nextra quirk); the port **shows it**, which is consistent with the other posts.
 - **Theme:** light and dark. Dark mode is applied with `html.dark`, follows the OS setting by default, has a toggle, and the visitor's choice persists.
-- **Styles:** `styles/main.scss` is carried over unchanged. Nextra's own base styles (prose, layout, nav) have to be rebuilt to match.
+- **Styles:** `styles/main.scss` is carried over unchanged. Its `.prose`, `.prose a` and `.nav-line .nav-link` rules match no live markup (Nextra's classes are `nx-*`), so they have never applied; the port avoids those class names to keep parity.
+- **Punctuation:** straight quotes and `--` as typed. Astro 7's Sätteri turns smart punctuation on by default, so it is disabled. Nextra's own base styles (prose, layout, nav) have to be rebuilt to match.
 
 ### Defects fixed during the migration
 

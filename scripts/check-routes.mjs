@@ -85,7 +85,12 @@ const attrs = (tag) =>
 const tags = (html, name) => [...html.matchAll(new RegExp(`<${name}\\b[^>]*>`, 'gi'))].map((m) => attrs(m[0]));
 const meta = (html, key) => tags(html, 'meta').find((a) => a.property === key || a.name === key)?.content;
 const text = (s) =>
-	decode(s.replace(/<!--[\s\S]*?-->/g, '').replace(/<(script|style)\b[\s\S]*?<\/\1>/gi, '').replace(/<[^>]+>/g, '')).trim();
+	decode(
+		s
+			.replace(/<!--[\s\S]*?-->/g, '')
+			.replace(/<(script|style)\b[\s\S]*?<\/\1>/gi, '')
+			.replace(/<[^>]+>/g, ''),
+	).trim();
 const firstText = (html, name) => {
 	const m = html.match(new RegExp(`<${name}\\b[^>]*>([\\s\\S]*?)</${name}>`, 'i'));
 	return m ? text(m[1]) : undefined;
@@ -98,7 +103,7 @@ const fileFor = (route) => new URL(route === '/' ? 'index.html' : `${decodeURICo
 for (const page of PAGES) {
 	const { route } = page;
 	const file = fileFor(route);
-	check(route, existsSync(file), `missing ${file.pathname.replace(DIST.pathname, 'dist/')}`);
+	check(route, existsSync(file), `missing ${decodeURIComponent(file.pathname.replace(DIST.pathname, 'dist/'))}`);
 	if (!existsSync(file)) continue;
 
 	const html = readFileSync(file, 'utf8');
@@ -144,7 +149,11 @@ for (const page of PAGES) {
 		const time = html.match(/<time\b([^>]*)>([^<]*)<\/time>/i);
 		const datetime = time && attrs(time[1]).datetime;
 		check(route, datetime?.startsWith(iso), `<time datetime> is ${datetime}, expected ${iso}`);
-		check(route, time && text(time[2]) === label, `date text is ${JSON.stringify(time && text(time[2]))}, expected "${label}"`);
+		check(
+			route,
+			time && text(time[2]) === label,
+			`date text is ${JSON.stringify(time && text(time[2]))}, expected "${label}"`,
+		);
 	}
 	if (page.tags) {
 		for (const tag of page.tags) {
@@ -163,8 +172,16 @@ for (const page of PAGES) {
 		const link = html.match(new RegExp(`<a\\b[^>]*href="${page.externalLink}"[^>]*>([\\s\\S]*?)</a>`));
 		const a = link && attrs(link[0].match(/<a\b[^>]*>/)[0]);
 		check(route, a?.target === '_blank', `external link ${page.externalLink} missing target="_blank"`);
-		check(route, a?.rel?.split(/\s+/).includes('noreferrer'), `external link ${page.externalLink} missing rel="noreferrer"`);
-		check(route, link?.[1].includes('(opens in a new tab)'), `external link ${page.externalLink} missing sr-only label`);
+		check(
+			route,
+			a?.rel?.split(/\s+/).includes('noreferrer'),
+			`external link ${page.externalLink} missing rel="noreferrer"`,
+		);
+		check(
+			route,
+			link?.[1].includes('(opens in a new tab)'),
+			`external link ${page.externalLink} missing sr-only label`,
+		);
 	}
 	check(route, !/<a\b[^>]*href="\/[^"]*"[^>]*target=/.test(html), 'internal link has a target attribute');
 	check(route, !html.includes('UA-29309617'), 'still contains the Universal Analytics ID');
