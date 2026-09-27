@@ -19,7 +19,7 @@ const { title, description, summary, image } = Astro.props.frontmatter ?? Astro.
 
 <html lang='en'>
 	<head>
-		<Head title={title} description={description ?? summary} image={image} />
+		<Head title={title} description={description || summary} image={image} />
 	</head>
 	<body>
 		<article class='page'>

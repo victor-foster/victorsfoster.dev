@@ -11,7 +11,8 @@ interface Props {
 
 const SITE_NAME = 'Victor Foster - UI Engineer';
 
-const { title, description = SITE_NAME, image } = Astro.props;
+const { title, image } = Astro.props;
+const description = Astro.props.description || SITE_NAME;
 const canonicalUrl = new URL(pagePath(Astro.url), Astro.site).href;
 const ogImage = image ? new URL(image, Astro.site).href : new URL('/og-image.png', Astro.site).href;
 ---

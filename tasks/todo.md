@@ -45,7 +45,7 @@ Plan: [`plan.md`](plan.md) · Spec: [`SPEC.md`](../SPEC.md)
 **Scope:** M (mostly deletions and config)
 
 **Result:** Astro 7.3.5, @astrojs/mdx 8.0.2, @astrojs/check 0.9.10, TypeScript 6 (`@astrojs/check` peer range is `^5 || ^6`, so not TS 7). Also added `engines.node: ">=22.12.0"` (Astro's requirement); Vercel docs say `engines` overrides the project's Node setting, so the branch builds on Node 24.x without touching the dashboard. npm 11 blocked install scripts for esbuild, @parcel/watcher and fsevents; they're left unapproved because the build doesn't need them. `astro check`: 0 errors and 2 hints, both in files outside this task's scope (`postcss.config.js`, `scripts/gen-rss.mjs`, which T9 removes).
-**Astro 7 notes for later tasks:** Markdown now defaults to the Sätteri pipeline, and rehype plugins need `@astrojs/markdown-remark` + `markdown.processor: unified()` (affects T6b and T7). `compressHTML` now defaults to `'jsx'` whitespace rules (watch inline spacing in T6).
+**Astro 7 notes for later tasks:** Markdown now defaults to the Sätteri pipeline. It has its own plugin API (`satteri({ hastPlugins, mdastPlugins })`, `defineHastPlugin` from `satteri`); rehype/remark plugins only run with `@astrojs/markdown-remark` + `unified()`. T6b uses a Sätteri hast plugin. `compressHTML` now defaults to `'jsx'` whitespace rules (watch inline spacing in T6).
 
 ### T2b: Lint and format tooling
 
@@ -92,6 +92,8 @@ Plan: [`plan.md`](plan.md) · Spec: [`SPEC.md`](../SPEC.md)
 - The nav renders as "PhotosPostsAbout" until T4 adds the flex gap (Astro 7's `compressHTML: 'jsx'` removes the whitespace between elements).
 
 ## Checkpoint A: Foundation
+
+**Code review (2026-09-27; independent reviewer agent + author pass):** no Critical findings. Fixed: `.ts` files weren't linted (Required); the checker's internal-link and external-link checks missed attribute order and an unescaped URL, post pages lacked an `<h1>` check, and the feed wasn't checked for shape or guids; `.env`/`.env.*` weren't ignored; `??` → `||` for empty descriptions (parity with the old theme); screenshot.sh strips a trailing `/` and documents shooting the preview, not dev. Declined: pinning `engines.node` to `24.x` (Astro's own range is `>=22.12.0` and Vercel only offers LTS majors, and pinning would warn on local Node 26). Deferred: Vercel serving `tags/web development.html` (T13 curl loop); dead `"main"` field, unused stylelint configs, stylelint already failing on SCSS on `main` (out of scope; noted).
 
 **Browser check (2026-09-27, isolated Chrome through Playwright; the DevTools MCP isn't configured):** About page: 0 console errors or warnings, 0 failed requests, 0 JS; the accessibility tree matches live apart from the toggle (T5) and "(opens in a new tab)" labels (T6b), and gains a `navigation` landmark with `aria-current`. **Found CLS 0.366** (live 0.019), caused by Google Fonts swapping in after first paint. **Fixed** with the Astro Fonts API (self-hosted, preloaded, metric-matched fallbacks; Open Sans 400 only, as in production): CLS 0 in 3 of 3 runs, FCP about 45 ms, LCP 36 ms, and no third-party requests.
 - [ ] `npm run lint`, `build` and `verify` are clean for `/`
@@ -149,13 +151,14 @@ Plan: [`plan.md`](plan.md) · Spec: [`SPEC.md`](../SPEC.md)
 **Acceptance criteria:**
 - [ ] `src/content.config.ts` defines the schema from the spec (`date` coerced, `tag` normalized to `string[]`); frontmatter dates are normalized to `YYYY-MM-DD`
 - [ ] Posts moved with `git mv` to `src/content/posts/`, keeping filenames; the unused `next/image` import is removed from the web-unleashed post; no wording changes
-- [ ] `PostLayout.astro` renders the header like the live site: author, `<time datetime>` formatted in UTC as `Mon Jan 17 2022`, `•`, tag pills linking to `/tags/<encoded tag>`, "Back" → `/posts`, and the theme toggle
+- [ ] `PostLayout.astro` renders the header like the live site: author, `<time datetime>` formatted in UTC as `Mon Jan 17 2022`, `•`, tag pills linking to `/tags/<encoded tag>`, and "Back" → `/posts` (T5 adds the theme toggle next to "Back")
+- [ ] The dead first `# …` heading is deleted from each post (Victor's decision in T3)
 
 **Verification:**
 - [ ] `npm run build && npm run verify`: all 3 post routes pass, including the date text
 - [ ] Manual check: the web-unleashed post (2 tags) matches the baseline header
 
-**Dependencies:** T5
+**Dependencies:** T3 (order change: content before T4/T5)
 **Files:** `src/content.config.ts`, `src/content/posts/*.mdx` (git mv), `src/pages/posts/[slug].astro`, `src/layouts/PostLayout.astro`
 **Scope:** M
 
@@ -164,7 +167,7 @@ Plan: [`plan.md`](plan.md) · Spec: [`SPEC.md`](../SPEC.md)
 **Description:** Reproduce Nextra's automatic treatment of external Markdown links on every MDX page, with no new dependency.
 
 **Acceptance criteria:**
-- [ ] A local rehype plugin (~15 lines) adds `target="_blank" rel="noreferrer"` and `<span class="sr-only"> (opens in a new tab)</span>` to `http(s)` links whose host isn't `victorfoster.dev`; internal links and hand-written `<a>` tags that already set a `target` are left alone
+- [ ] A local Sätteri hast plugin (`defineHastPlugin`, `element` visitor filtered to `a`) adds `target="_blank" rel="noreferrer"` and `<span class="sr-only"> (opens in a new tab)</span>` to `http(s)` links whose host isn't `victorfoster.dev`; internal links and hand-written `<a>` tags that already set a `target` are left alone
 - [ ] `.sr-only` is defined in `base.scss`
 
 **Verification:**
@@ -172,7 +175,7 @@ Plan: [`plan.md`](plan.md) · Spec: [`SPEC.md`](../SPEC.md)
 - [ ] Manual check: with VoiceOver on the About page, the GitHub link is announced with "opens in a new tab"
 
 **Dependencies:** T3 (can be done any time after T3)
-**Files:** `src/lib/rehype-external-links.mjs`, `astro.config.mjs`, `src/styles/base.scss`, `scripts/check-routes.mjs`
+**Files:** `src/lib/external-links.mjs`, `astro.config.mjs`, `src/styles/base.scss`, `scripts/check-routes.mjs`
 **Scope:** S
 
 ### T7: Code highlighting
@@ -180,7 +183,7 @@ Plan: [`plan.md`](plan.md) · Spec: [`SPEC.md`](../SPEC.md)
 **Description:** Shiki with light and dark themes, following the site theme through `html.dark`.
 
 **Acceptance criteria:**
-- [ ] `markdown.shikiConfig.themes` has `{ light, dark }`; CSS switches to the dark variables under `html.dark`
+- [ ] Highlighting is configured the documented Astro 7 way (check first: `shikiConfig` vs Sätteri's `satteriHighlightPlugin`), with `{ light, dark }` themes; CSS switches to the dark variables under `html.dark`
 - [ ] Code blocks are readable in both themes and match the baseline block styling (background, radius, padding, font size)
 
 **Verification:**

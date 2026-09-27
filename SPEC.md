@@ -42,12 +42,15 @@ These were checked against production on 2026-09-27.
 2. **Default share image.** `/og-image.png` returns a 404 in production, so pages without their own image share a broken image. Add a 1200×630 `public/og-image.png`: name and "UI Engineer" on the site gradient, for Victor to approve or replace. Per-post images are out of scope.
 3. **Canonical host.** Canonicals point to `https://victorfoster.dev/…`, which 308-redirects to `www.`. Set `site: 'https://www.victorfoster.dev'` so every canonical and og:url uses `www.`.
 4. **Meta description.** The live site emits only `og:description`. Add `<meta name="description">` with the same value.
-5. **Photos.** All 4 images use `priority` (eager loading). Only the first image should load eagerly; the rest should be lazy.
+5. **RSS links.** Live `<link>` and `<guid>` values are relative (`/posts/…`), which readers can't resolve. The port uses absolute www URLs. Accepted side effect: each item's guid changes, so feed readers may show the 3 posts as new once.
+6. **Photos.** All 4 images use `priority` (eager loading). Only the first image should load eagerly; the rest should be lazy.
 
 ## Tech Stack
 
 - Astro (latest stable, version pinned when scaffolded) with static output
 - `@astrojs/mdx` for the MDX content
+- `@astrojs/markdown-satteri` (Astro 7's default Markdown processor, made explicit to disable smart punctuation and add hast plugins; `markdown.smartypants` is deprecated)
+- Astro Fonts API (built in) for self-hosted Open Sans/Vollkorn
 - `@astrojs/rss` for `/feed.xml`, replacing `scripts/gen-rss.mjs`, `rss` and `gray-matter`
 - Shiki (built into Astro) with dual light/dark themes for code blocks, replacing `prismjs` and `prism-react-renderer`
 - `sass`, which Astro supports without a plugin, and `sanitize.css`

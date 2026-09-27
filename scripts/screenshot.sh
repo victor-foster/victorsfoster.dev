@@ -3,13 +3,16 @@
 # for visual parity checks during the Astro migration (see tasks/plan.md).
 #
 #   scripts/screenshot.sh https://www.victorfoster.dev tasks/baseline
+#   npm run build && npm run preview   # then, in another shell:
 #   scripts/screenshot.sh http://localhost:4321 tasks/current
+# Shoot the preview (built site), not `astro dev`: dev injects the toolbar and data-astro-source-* attributes.
 #
 # Uses the Playwright CLI via npx with the installed Chrome; it is not a project dependency.
 # Flags: `npx playwright@1.63.0 screenshot --help`
 set -euo pipefail
 
 base_url="${1:?usage: $0 <base-url> <out-dir>}"
+base_url="${base_url%/}"
 out_dir="${2:?usage: $0 <base-url> <out-dir>}"
 
 pages=(

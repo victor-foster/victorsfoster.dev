@@ -15,7 +15,7 @@ Replace the Next.js/Nextra site with a static Astro site on the `next-to-astro` 
 - **Verification script before implementation.** `scripts/check-routes.mjs` encodes the spec's route and metadata table and fails until the routes exist. It is the test suite for this migration.
 - **Keep the `next-themes` contract.** The same inline no-flash script and the same localStorage key `theme` (`light`/`dark`/`system`), so returning visitors keep their choice. The toggle becomes a real `<button>` rather than Nextra's `<span role="button">`. It looks the same, and it's accessible.
 - **Dates render in UTC.** Frontmatter dates are midnight UTC. Formatting in local time on a Pacific-time machine would show the day before (for example `Sun Jan 16`), so dates are formatted with `timeZone: 'UTC'`, matching today's `Mon Jan 17 2022`.
-- **External links:** a ~15-line local rehype plugin reproduces Nextra's `target="_blank" rel="noreferrer"` plus the sr-only "(opens in a new tab)" label. This avoids adding a dependency.
+- **External links:** a small local Sätteri `defineHastPlugin` (Astro 7's Markdown pipeline; rehype plugins don't run on it) reproduces Nextra's `target="_blank" rel="noreferrer"` plus the sr-only "(opens in a new tab)" label. This avoids adding a dependency.
 - **OG image** is rendered once from `scripts/og-image.html` with headless Chrome (already installed), so no image dependencies are needed. The source HTML is committed so the image can be regenerated.
 
 ## Dependency Graph
@@ -41,6 +41,8 @@ T6b, T10, T11 and T12 depend only on T3/T4 and can be done in any order. T7, T8 
 
 ## Task List
 
+> **Order change (2026-09-27, Victor):** Phase 3 (Content) runs before Phase 2 (Look and feel). Content tasks depend on T3, not T5; T5 adds the theme toggle to the post header afterwards. Checkpoint B's visual review moves after T5 as before.
+
 ### Phase 1: Foundation
 - [x] T1: Capture live baseline and write `check-routes.mjs` (fails)
 - [x] T2: Swap toolchain: remove Next, scaffold Astro, add `vercel.json`
@@ -59,8 +61,8 @@ T6b, T10, T11 and T12 depend only on T3/T4 and can be done in any order. T7, T8 
 
 ### Phase 3: Content
 - [ ] T6: Posts collection, post layout, and post pages
-- [ ] T6b: External link handling (local rehype plugin)
-- [ ] T7: Code highlighting (Shiki dual themes)
+- [ ] T6b: External link handling (local Sätteri hast plugin)
+- [ ] T7: Code highlighting (verify Sätteri's highlight plugin; dual themes)
 
 ### Checkpoint C1: Posts
 - [ ] `/` and all 3 posts pass `verify` and match the baseline. **Victor reviews.**

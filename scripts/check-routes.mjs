@@ -23,6 +23,7 @@ const PAGES = [
 	{
 		route: `/posts/${POSTS.unleashed}`,
 		title: 'Notes and Takeaways from Web Unleashed 2024',
+		h1: 'Notes and Takeaways from Web Unleashed 2024',
 		description: 'Covering performance engineering, TypeScript tips, and modern frontend patterns.',
 		date: ['2024-10-27', 'Sun Oct 27 2024'],
 		tags: ['web development', 'web performance'],
@@ -31,6 +32,7 @@ const PAGES = [
 	{
 		route: `/posts/${POSTS.css}`,
 		title: "CSS Custom Properties - The Future is Now, and It's Looking Pretty Colorful",
+		h1: "CSS Custom Properties - The Future is Now, and It's Looking Pretty Colorful",
 		description: 'From Hue to You - Creating a Customizable Color Palette with Modern CSS',
 		date: ['2023-04-02', 'Sun Apr 02 2023'],
 		tags: ['web development'],
@@ -39,6 +41,7 @@ const PAGES = [
 	{
 		route: `/posts/${POSTS.blog}`,
 		title: 'How I setup my developer blog.',
+		h1: 'How I setup my developer blog.',
 		description: 'How I setup my developer blog.',
 		date: ['2022-01-17', 'Mon Jan 17 2022'],
 		tags: ['web development'],
@@ -169,8 +172,8 @@ for (const page of PAGES) {
 		check(route, JSON.stringify(hrefs) === JSON.stringify(page.postLinks), `post links are ${JSON.stringify(hrefs)}`);
 	}
 	if (page.externalLink) {
-		const link = html.match(new RegExp(`<a\\b[^>]*href="${page.externalLink}"[^>]*>([\\s\\S]*?)</a>`));
-		const a = link && attrs(link[0].match(/<a\b[^>]*>/)[0]);
+		const link = [...html.matchAll(/(<a\b[^>]*>)([\s\S]*?)<\/a>/g)].find((m) => attrs(m[1]).href === page.externalLink);
+		const a = link && attrs(link[1]);
 		check(route, a?.target === '_blank', `external link ${page.externalLink} missing target="_blank"`);
 		check(
 			route,
@@ -179,11 +182,15 @@ for (const page of PAGES) {
 		);
 		check(
 			route,
-			link?.[1].includes('(opens in a new tab)'),
+			link?.[2].includes('(opens in a new tab)'),
 			`external link ${page.externalLink} missing sr-only label`,
 		);
 	}
-	check(route, !/<a\b[^>]*href="\/[^"]*"[^>]*target=/.test(html), 'internal link has a target attribute');
+	check(
+		route,
+		!tags(html, 'a').some((a) => a.href?.startsWith('/') && a.target),
+		'internal link has a target attribute',
+	);
 	check(route, !html.includes('UA-29309617'), 'still contains the Universal Analytics ID');
 }
 
@@ -196,7 +203,17 @@ const feedFile = new URL('feed.xml', DIST);
 check('/feed.xml', existsSync(feedFile), 'missing dist/feed.xml');
 if (existsSync(feedFile)) {
 	const feed = readFileSync(feedFile, 'utf8');
-	const links = [...feed.matchAll(/<item>[\s\S]*?<link>([^<]+)<\/link>/g)].map((m) => m[1]).sort();
+	check('/feed.xml', /^<\?xml[^>]*>\s*<rss\b[\s\S]*<\/rss>\s*$/.test(feed), 'not an <rss> document');
+	const items = [...feed.matchAll(/<item>([\s\S]*?)<\/item>/g)].map((m) => ({
+		link: m[1].match(/<link>([^<]+)<\/link>/)?.[1],
+		guid: m[1].match(/<guid\b[^>]*>([^<]+)<\/guid>/)?.[1],
+	}));
+	check(
+		'/feed.xml',
+		items.every((i) => i.guid === i.link),
+		'item <guid> differs from <link>',
+	);
+	const links = items.map((i) => i.link).sort();
 	const expected = Object.values(POSTS)
 		.map((slug) => `${SITE}/posts/${slug}`)
 		.sort();
