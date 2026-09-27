@@ -42,8 +42,9 @@ These were checked against production on 2026-09-27.
 2. **Default share image.** `/og-image.png` returns a 404 in production, so pages without their own image share a broken image. Add a 1200×630 `public/og-image.png`: name and "UI Engineer" on the site gradient, for Victor to approve or replace. Per-post images are out of scope.
 3. **Canonical host.** Canonicals point to `https://victorfoster.dev/…`, which 308-redirects to `www.`. Set `site: 'https://www.victorfoster.dev'` so every canonical and og:url uses `www.`.
 4. **Meta description.** The live site emits only `og:description`. Add `<meta name="description">` with the same value.
-5. **RSS links.** Live `<link>` and `<guid>` values are relative (`/posts/…`), which readers can't resolve. The port uses absolute www URLs. Accepted side effect: each item's guid changes, so feed readers may show the 3 posts as new once.
-6. **Photos.** All 4 images use `priority` (eager loading). Only the first image should load eagerly; the rest should be lazy.
+5. **Photo weight.** Next's optimizer served about 2 MB of WebP at every screen size. The port uses Astro `<Image>` (responsive WebP from copies in `src/assets/photos`; `public/images` and the caption links are unchanged): 1.27 MB on desktop and 670 KB on phones.
+6. **RSS links.** Live `<link>` and `<guid>` values are relative (`/posts/…`), which readers can't resolve. The port uses absolute www URLs. Accepted side effect: each item's guid changes, so feed readers may show the 3 posts as new once.
+7. **Photos.** All 4 images use `priority` (eager loading). Only the first image should load eagerly; the rest should be lazy.
 
 ## Tech Stack
 

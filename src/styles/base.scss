@@ -13,6 +13,25 @@
 	border-width: 0;
 }
 
+// Nextra's Tailwind preflight kept media inside the column (photos carry their intrinsic width/height)
+audio,
+canvas,
+embed,
+iframe,
+img,
+object,
+svg,
+video {
+	display: block;
+	vertical-align: middle;
+}
+
+img,
+video {
+	max-width: 100%;
+	height: auto;
+}
+
 // Code blocks: Shiki's css-variables theme (astro.config.mjs) with Nextra's palette, light then dark
 :root {
 	--astro-code-foreground: #414141;

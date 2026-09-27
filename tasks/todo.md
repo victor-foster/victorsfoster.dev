@@ -247,16 +247,19 @@ Plan: [`plan.md`](plan.md) · Spec: [`SPEC.md`](../SPEC.md)
 **Description:** Port the photos page without `next/image`, loading only the first photo eagerly.
 
 **Acceptance criteria:**
-- [ ] `src/pages/photos.mdx` uses plain `<img>` with the real intrinsic `width`/`height` (checked with `sips`); the first photo is `loading="eager"` and the other 3 are `loading="lazy" decoding="async"`
-- [ ] Captions and links to `/images/*.jpg` are unchanged; `public/images` is untouched
+- [x] ~~plain `<img>`~~ → **Astro `<Image>`** (Victor's decision: plain `<img>` would have sent 6.3 MB against live's 2 MB): WebP, `widths=[400,800,1200]`, width/height inferred; the first photo is `loading="eager" fetchpriority="high"`, the other 3 lazy
+- [x] Captions and links to `/images/*.jpg` are unchanged; `public/images` is untouched (optimized copies of the 4 photos live in `src/assets/photos`)
 
 **Verification:**
-- [ ] `npm run verify`: `/photos` passes
-- [ ] Manual check vs baseline; the DevTools network panel shows images 2–4 load only on scroll; no layout shift
+- [x] `npm run verify`: `/photos` passes
+- [x] Images 2–4 load only on scroll; CLS 0. Visual check vs baseline after T4.
 
 **Dependencies:** T4
 **Files:** `src/pages/photos.mdx` (git mv), `src/styles/base.scss` (if the figure styles need it)
 **Scope:** XS
+
+**Result:** image bytes 1.27 MB at 1280px@2x (live: 1.98 MB, −36%) and 670 KB at 375px@2x (−66%); LCP 24–44 ms locally; CLS 0; 0 JS; clean console. Added Nextra's preflight media rules (`img { max-width: 100%; height: auto }`) to `base.scss`, since without them the photos rendered at their intrinsic 1862px width. The `next-image` class is kept because `main.scss` styles it. The dead `# Photos` heading was removed. The empty legacy `pages/` directory (only a tracked `.DS_Store`) is gone.
+**Left for T4:** column width (photos are 1120px wide at 1280 until the container exists; `sizes` assumes about 600px) and the `<figure>` margin reset (the browser's default 40px side margins show at 375).
 
 ## Checkpoint C: All routes
 - [ ] `npm run build && npm run verify` pass with every route green and no `pages/` directory left
