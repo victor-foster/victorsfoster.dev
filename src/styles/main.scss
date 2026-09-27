@@ -1,6 +1,7 @@
 :root {
-	--font-family: 'Open Sans', sans-serif;
-	--font-family-alt: 'Vollkorn', sans-serif;
+	// Set by the Astro Fonts API (astro.config.mjs): self-hosted font + metric-matched sans-serif fallback
+	--font-family: var(--font-open-sans);
+	--font-family-alt: var(--font-vollkorn);
 	--font-weight: 400;
 	--font-weight-bold: 600;
 

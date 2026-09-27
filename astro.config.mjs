@@ -1,5 +1,5 @@
 // https://docs.astro.build/en/reference/configuration-reference/
-import { defineConfig } from 'astro/config';
+import { defineConfig, fontProviders } from 'astro/config';
 import mdx from '@astrojs/mdx';
 import { satteri } from '@astrojs/markdown-satteri';
 
@@ -17,5 +17,26 @@ export default defineConfig({
 		// https://docs.astro.build/en/guides/markdown-content/ (satteri features)
 		processor: satteri({ features: { smartPunctuation: false } }),
 	},
+	// Self-hosted, preloaded fonts with metric-matched fallbacks; loading them from Google at runtime
+	// shifted the layout on swap (CLS 0.366). Weights match production's Google Fonts URL.
+	// https://docs.astro.build/en/guides/fonts/
+	fonts: [
+		{
+			provider: fontProviders.google(),
+			name: 'Open Sans',
+			cssVariable: '--font-open-sans',
+			weights: [400],
+			styles: ['normal'],
+			subsets: ['latin'],
+		},
+		{
+			provider: fontProviders.google(),
+			name: 'Vollkorn',
+			cssVariable: '--font-vollkorn',
+			weights: [400, 600],
+			styles: ['normal'],
+			subsets: ['latin'],
+		},
+	],
 	integrations: [mdx()],
 });

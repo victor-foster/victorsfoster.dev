@@ -92,6 +92,8 @@ Plan: [`plan.md`](plan.md) · Spec: [`SPEC.md`](../SPEC.md)
 - The nav renders as "PhotosPostsAbout" until T4 adds the flex gap (Astro 7's `compressHTML: 'jsx'` removes the whitespace between elements).
 
 ## Checkpoint A: Foundation
+
+**Browser check (2026-09-27, isolated Chrome through Playwright; the DevTools MCP isn't configured):** About page: 0 console errors or warnings, 0 failed requests, 0 JS; the accessibility tree matches live apart from the toggle (T5) and "(opens in a new tab)" labels (T6b), and gains a `navigation` landmark with `aria-current`. **Found CLS 0.366** (live 0.019), caused by Google Fonts swapping in after first paint. **Fixed** with the Astro Fonts API (self-hosted, preloaded, metric-matched fallbacks; Open Sans 400 only, as in production): CLS 0 in 3 of 3 runs, FCP about 45 ms, LCP 36 ms, and no third-party requests.
 - [ ] `npm run lint`, `build` and `verify` are clean for `/`
 - [ ] Commit, and let Victor look at the diff before starting the styling work
 

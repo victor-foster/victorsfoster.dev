@@ -27,7 +27,7 @@ These were checked against production on 2026-09-27.
 - **URL shape:** no trailing slash. `/posts/` currently 308-redirects to `/posts`.
 - **Title:** `<title>` is the frontmatter `title` with no suffix.
 - **Page heading:** the `<h1>` is the frontmatter `title`. Nextra drops the MDX file's own first `# heading`: About shows "About", not "Victor Foster", and the CSS post shows its title, not "From Hue to You…". Decision (2026-09-27): delete those dead `# …` lines from the MDX files instead of dropping them at build time; the rendered output is unchanged.
-- **Head on every page:** `lang="en"`; og:type/url/title/description/site_name/image(+width, height, alt); twitter:card/title/description/image/alt; canonical; RSS `<link rel="alternate">`; Google Fonts (Open Sans, Vollkorn 400/600).
+- **Head on every page:** `lang="en"`; og:type/url/title/description/site_name/image(+width, height, alt); twitter:card/title/description/image/alt; canonical; RSS `<link rel="alternate">`; fonts Open Sans 400 and Vollkorn 400/600. Fonts are self-hosted through the Astro Fonts API (decision 2026-09-27) rather than loaded from Google at runtime; the Google-hosted version caused CLS 0.366 on the About page.
 - **Description fallback:** `description || summary || 'Victor Foster - UI Engineer'`.
 - **Nav:** Photos, Posts, About, in that order, followed by the theme toggle and placed below the `<h1>`. The current page is plain text rather than a link. There's no RSS link in the nav (only the `<link rel="alternate">` in the head). Post pages show "Back" → `/posts` instead of the nav.
 - **Post header:** `<author>, ` (only if frontmatter has `author`), `<time>` as `Mon Jan 17 2022`, `•`, tag pills; right side: "Back" and the toggle.
@@ -171,6 +171,7 @@ This is a static content site, so verification is build-time checks plus visual 
 - [ ] Code blocks are highlighted in both themes
 - [ ] Photos: first image eager, the rest `loading="lazy"`, all with `width`/`height` (no layout shift)
 - [ ] Pages ship no JS other than the theme script and GA4
+- [ ] CLS < 0.1 and no console errors or warnings on every page type (live About scores 0.019)
 
 ## Decisions (2026-09-27)
 
