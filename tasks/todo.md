@@ -318,17 +318,19 @@ Plan: [`plan.md`](plan.md) · Spec: [`SPEC.md`](../SPEC.md)
 **Description:** Deploy the branch as a Vercel preview and check the URL behavior on Vercel itself. **Ask before pushing.**
 
 **Acceptance criteria:**
-- [ ] The preview build uses the Astro settings from `vercel.json`, and the production deployment is untouched
-- [ ] On the preview URL: every spec route returns 200; `/posts/`, `/posts.html` and `/tags/web%20development/` each 308 to the path with no slash or extension; `/feed.xml` and `/og-image.png` return 200
+- [x] The preview build uses the Astro settings from `vercel.json`, and the production deployment is untouched
+- [x] On the preview URL: every spec route returns 200; `/posts/`, `/posts.html` and `/tags/web%20development/` each 308 to the path with no slash or extension; `/feed.xml` and `/og-image.png` return 200
 - [x] README updated with the new commands
 
 **Verification:**
-- [ ] A curl loop over the route list against the preview URL (if Vercel preview protection blocks curl, Victor runs it or shares a bypass token)
-- [ ] Lighthouse on the preview shows no regressions against the live site in Performance and Accessibility
+- [x] A curl loop over the route list against the preview URL (if Vercel preview protection blocks curl, Victor runs it or shares a bypass token)
+- [x] Lighthouse on the preview shows no regressions against the live site in Performance and Accessibility
 
 **Dependencies:** Checkpoint C, T6b, T11, T12
 **Files:** `README.md`
 **Scope:** XS
+
+**Result (2026-09-27, draft PR #49):** preview `victorsfoster-com-git-next-to-astro-victor-fosters-projects.vercel.app` built from `vercel.json` (production untouched). All 13 canonical routes and files return 200, including `tags/web development.html` served at `/tags/web%20development`; `/posts/`, `/posts.html`, `/photos/`, the post with a trailing slash, `/tags/web%20development/` and `/index.html` each do one 308 to the canonical URL; unknown paths 404. Lighthouse (mobile), live → preview: perf 71→100 (/), 75→94 (/photos), 100→100 (post); LCP 5.3 s→1.6 s and 13.3 s→3.0 s; weight 416→70 KiB and 2,423→740 KiB; a11y 100 on both. Preview SEO 63 is only `is-crawlable`, from Vercel's preview-only `x-robots-tag: noindex`; live's 91 was the missing meta description, which is fixed.
 
 ### T14: Production cutover
 
