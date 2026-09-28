@@ -144,7 +144,7 @@ Plan: [`plan.md`](plan.md) · Spec: [`SPEC.md`](../SPEC.md)
 
 ## Checkpoint B: About page at parity
 - [x] All page types at 375/1280 × light/dark match the baseline (computed-style diffs + 20 side-by-side screenshots in `tasks/current/`); only accepted differences remain
-- [ ] **Victor signs off** (on the Vercel preview from the draft PR)
+- [x] **Victor signs off**: local test of the production build (2026-09-27)
 
 ---
 
@@ -268,8 +268,8 @@ Plan: [`plan.md`](plan.md) · Spec: [`SPEC.md`](../SPEC.md)
 **Left for T4:** column width (photos are 1120px wide at 1280 until the container exists; `sizes` assumes about 600px) and the `<figure>` margin reset (the browser's default 40px side margins show at 375).
 
 ## Checkpoint C: All routes
-- [ ] `npm run build && npm run verify` pass with every route green and no `pages/` directory left
-- [ ] Every page type at 375/1280 × light/dark matches the baseline. **Victor signs off.**
+- [x] `npm run build && npm run verify` pass with every route green and no `pages/` directory left
+- [x] Every page type at 375/1280 × light/dark matches the baseline. **Victor signs off.**
 
 ---
 
@@ -286,7 +286,7 @@ Plan: [`plan.md`](plan.md) · Spec: [`SPEC.md`](../SPEC.md)
 **Verification:**
 - [x] `sips -g pixelWidth -g pixelHeight public/og-image.png` → 1200×630
 - [x] `npm run verify`: the og:image check passes
-- [ ] Manual check: **Victor approves the image** (in the draft PR)
+- [x] Manual check: **Victor approves the image** (2026-09-27)
 
 **Dependencies:** T3
 **Files:** `scripts/og-image.html`, `public/og-image.png`, `src/components/Head.astro`
