@@ -1,5 +1,5 @@
 // Post-build check that dist/ keeps every production URL, its metadata and the RSS feed.
-// Expected values were captured from https://www.victorfoster.dev on 2026-09-27 (see SPEC.md).
+// Expected values were captured from https://www.victorfoster.dev on 2026-09-27.
 //
 //   npm run build && npm run verify
 import { existsSync, readFileSync } from 'node:fs';

@@ -63,6 +63,7 @@ $md: 768px;
 }
 
 .tag {
+	-webkit-user-select: none; // Safari still needs the prefix
 	user-select: none;
 	border-radius: 0.375rem;
 	background-color: $gray-200;
