@@ -178,6 +178,12 @@ html.dark .page :not(pre) > code {
 	background-color: rgb(255 255 255 / 10%);
 }
 
+// Tables (first used by the Astro rebuild post): Nextra's dark prose recolors <thead> but prose sets <th> to the
+// light-mode heading color, which left header text near-black on the dark background.
+html.dark .page thead th {
+	color: #f3f4f6;
+}
+
 // Theme toggle: nx-cursor-pointer nx-p-2 nx-text-current; sun in light, moon in dark
 .theme-toggle {
 	display: block;
