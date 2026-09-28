@@ -1,0 +1,16 @@
+---
+import { pagePath } from '../lib/path';
+
+const links = [
+	{ href: '/photos', label: 'Photos' },
+	{ href: '/posts', label: 'Posts' },
+	{ href: '/', label: 'About' },
+];
+const current = pagePath(Astro.url);
+---
+
+<nav class='site-nav'>
+	{links.map(({ href, label }) =>
+		href === current ? <span aria-current='page'>{label}</span> : <a href={href}>{label}</a>,
+	)}
+</nav>

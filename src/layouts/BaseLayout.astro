@@ -1,0 +1,42 @@
+---
+// Used directly by .astro pages (props) and by MDX pages via `layout:` frontmatter (`frontmatter` prop).
+// https://docs.astro.build/en/basics/layouts/#markdown-layouts
+import 'sanitize.css';
+import '../styles/nextra.css';
+import '../styles/base.scss';
+import '../styles/main.scss';
+import Head from '../components/Head.astro';
+import Nav from '../components/Nav.astro';
+import ThemeToggle from '../components/ThemeToggle.astro';
+
+interface Props {
+	title: string;
+	/** Page <h1> when it differs from <title> (tag pages) */
+	heading?: string;
+	description?: string;
+	summary?: string;
+	image?: string;
+	frontmatter?: Omit<Props, 'frontmatter'>;
+}
+
+const { title, heading = title, description, summary, image } = Astro.props.frontmatter ?? Astro.props;
+---
+
+<html lang='en'>
+	<head>
+		<Head title={title} description={description || summary} image={image} />
+	</head>
+	<body>
+		<article class='page'>
+			<h1>{heading}</h1>
+			<slot name='header'>
+				<div class='page-header'>
+					<Nav />
+					<ThemeToggle />
+				</div>
+			</slot>
+			<slot />
+			<footer></footer>
+		</article>
+	</body>
+</html>
