@@ -23,9 +23,10 @@ const PAGES = [
 	{ route: '/posts', title: 'Posts', h1: 'Posts', postLinks: NEWEST_FIRST },
 	{
 		route: `/posts/${POSTS.astro}`,
-		title: 'Rebuilding my developer blog with Astro',
-		h1: 'Rebuilding my developer blog with Astro',
-		description: 'Moving from Next.js and Nextra to Astro. Same URLs, same look, and a much faster site.',
+		title: 'I rebuilt my blog with Astro so that nothing would change',
+		h1: 'I rebuilt my blog with Astro so that nothing would change',
+		description:
+			'A promise from 2022 finally kept, a capital I defended, and a stylesheet that had been quietly doing nothing.',
 		date: ['2026-09-28', 'Mon Sep 28 2026'],
 		tags: ['web development', 'web performance'],
 		author: 'Victor Foster',
