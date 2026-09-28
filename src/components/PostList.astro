@@ -18,7 +18,7 @@ const posts = [...Astro.props.posts].sort((a, b) => b.data.date.valueOf() - a.da
 			<p class='post-item-description'>
 				{description}{' '}
 				<a class='read-more' href={`/posts/${id}`}>
-					Read More →
+					Read More<span class='sr-only'>: {title}</span> <span aria-hidden='true'>→</span>
 				</a>
 			</p>
 		)}
