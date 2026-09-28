@@ -10,16 +10,28 @@ const DEFAULT_DESCRIPTION = 'Victor Foster - UI Engineer';
 const DEFAULT_IMAGE = `${SITE}/og-image.png`;
 
 const POSTS = {
+	astro: 'rebuilding-my-developer-blog-with-astro',
 	unleashed: 'notes-and-takeaways-from-web-unleashed-2024',
 	css: 'css-custom-properties-the-future-is-now-and-its-looking-pretty-colorful',
 	blog: 'how-I-setup-my-developer-blog',
 };
-const NEWEST_FIRST = [POSTS.unleashed, POSTS.css, POSTS.blog].map((slug) => `/posts/${slug}`);
+const NEWEST_FIRST = [POSTS.astro, POSTS.unleashed, POSTS.css, POSTS.blog].map((slug) => `/posts/${slug}`);
 
 const PAGES = [
 	{ route: '/', title: 'About', h1: 'About' },
 	{ route: '/photos', title: 'Photos', h1: 'Photos' },
 	{ route: '/posts', title: 'Posts', h1: 'Posts', postLinks: NEWEST_FIRST },
+	{
+		route: `/posts/${POSTS.astro}`,
+		title: 'Rebuilding my developer blog with Astro',
+		h1: 'Rebuilding my developer blog with Astro',
+		description:
+			'Moving from Next.js and Nextra to Astro with the same URLs and the same look, a faster site, and a stack I choose on purpose.',
+		date: ['2026-09-28', 'Mon Sep 28 2026'],
+		tags: ['web development', 'web performance'],
+		author: 'Victor Foster',
+		externalLink: 'https://astro.build',
+	},
 	{
 		route: `/posts/${POSTS.unleashed}`,
 		title: 'Notes and Takeaways from Web Unleashed 2024',
@@ -58,7 +70,7 @@ const PAGES = [
 		route: '/tags/web%20performance',
 		title: 'Tagged Posts',
 		h1: 'Posts Tagged with “web performance”',
-		postLinks: [`/posts/${POSTS.unleashed}`],
+		postLinks: [`/posts/${POSTS.astro}`, `/posts/${POSTS.unleashed}`],
 	},
 ];
 
