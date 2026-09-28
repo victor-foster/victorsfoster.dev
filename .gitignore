@@ -31,7 +31,3 @@ yarn-error.log*
 
 # vercel
 .vercel
-
-# migration visual baselines (tasks/plan.md)
-tasks/baseline/
-tasks/current/
