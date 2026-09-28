@@ -198,6 +198,23 @@ for (const page of PAGES) {
 check('/og-image.png', existsSync(new URL('og-image.png', DIST)), 'missing dist/og-image.png');
 check('/favicon.ico', existsSync(new URL('favicon.ico', DIST)), 'missing dist/favicon.ico');
 
+// Photo caption links: /images/<name>.jpg is built from src/assets/photos/<name>.jpg, byte for byte
+const photosFile = new URL('photos.html', DIST);
+const photoLinks = existsSync(photosFile)
+	? [...new Set([...readFileSync(photosFile, 'utf8').matchAll(/href="(\/images\/[^"]+)"/g)].map((m) => m[1]))]
+	: [];
+check('/photos', photoLinks.length > 0, 'no /images/ caption links');
+for (const link of photoLinks) {
+	const built = new URL(link.slice(1), DIST);
+	const source = new URL(`../src/assets/photos/${link.slice('/images/'.length)}`, import.meta.url);
+	check(link, existsSync(built), `missing dist${link}`);
+	check(
+		link,
+		existsSync(built) && existsSync(source) && readFileSync(built).equals(readFileSync(source)),
+		'differs from its src/assets/photos original',
+	);
+}
+
 // --- RSS ---
 const feedFile = new URL('feed.xml', DIST);
 check('/feed.xml', existsSync(feedFile), 'missing dist/feed.xml');
