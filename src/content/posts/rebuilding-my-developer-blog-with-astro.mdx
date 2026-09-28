@@ -1,136 +1,67 @@
 ---
-title: I rebuilt my blog with Astro so that nothing would change
+title: Rebuilding my developer blog with Astro
 date: 2026-09-28
-description: A promise from 2022 finally kept, a capital I defended, and a stylesheet that had been quietly doing nothing.
+description: Moving from Next.js and Nextra to Astro with the same URLs and the same look, a faster site, and a stack I choose on purpose.
 tag: [web development, web performance]
 author: Victor Foster
 ---
 
-In January 2022 I wrote a post about [how I set up this blog](/posts/how-I-setup-my-developer-blog), and I ended it the way all confident people end things: with a promise. If I ever rebuilt it with something different, _"I'll be sure to provide an update!"_
+In 2022 I wrote about [how I set up this blog](/posts/how-I-setup-my-developer-blog) with Next.js and Nextra, and I closed with a promise: if I ever rebuilt it with different technology, I'd provide an update. This is that update. The blog now runs on [Astro](https://astro.build).
 
-Well. It has been four years and eight months. Here is the update. I am nothing if not eventually reliable.
+## Why rebuild
 
-The blog now runs on [Astro](https://astro.build). If you're reading this and thinking "huh, it looks exactly the same," first of all, thank you for noticing nothing, and second, that was the entire plan.
+Part of this was about values. I choose the companies I work with as deliberately as the tools I build with. Their tech stack matters, and so do the positions their leadership takes publicly, how they conduct business, and what they're willing to stand behind. In 2026 I vote with my tech stack and my dollars. My own site was the easiest place to start, and step one was making it portable: plain static files that can be hosted anywhere. Moving it off Vercel is the next step.
 
-## The part where I actually looked at my own website
+The technical case was just as clear. My blog is words and a few photos, but Next.js ships a React runtime even for static pages: the About page made 12 JavaScript requests to render three paragraphs. Astro renders everything to HTML at build time and sends no JavaScript unless a page asks for it. I'd seen Astro talks at [Web Unleashed 2024](/posts/notes-and-takeaways-from-web-unleashed-2024), and that model fits a blog well.
 
-You'd think a person who writes about web performance would keep an eye on their own site. You'd think that.
+## My 2022 criteria, revisited
 
-Here's what I found when I finally opened the hood:
+- **Write posts in Markdown.** Still `.mdx`, now in a [content collection](https://docs.astro.build/en/guides/content-collections/) with a typed schema, so a malformed date fails the build instead of shipping.
+- **Run React and TypeScript samples in the browser.** No post ended up needing it. If one does, Astro can hydrate just that component.
+- **Full control over CSS.** My stylesheet came over as-is, with PostCSS still adding vendor prefixes.
+- **Static generation.** Every page is plain HTML built ahead of time.
 
-- **My About page made 12 JavaScript requests** to show you three paragraphs about myself. Three. Paragraphs. It was shipping a whole React runtime so that some text could sit still.
-- **My analytics had been collecting nothing for over three years.** Google switched off Universal Analytics in 2023, and my tag kept dutifully reporting to a service that was no longer there. Very loyal. Very useless.
-- **Every share preview was a tiny broken promise.** The default social image pointed at a file that returned a 404, so every link I shared came with a preview image of absolutely nothing.
+## Same URLs, same look
 
-None of this was Next.js's fault, to be clear. Next.js and Nextra were great to me. But Nextra's blog theme did most of the work behind a curtain, and after a while I realized I didn't really know what my own site was doing. (Foreshadowing!)
+I wanted a straight port: readers and search engines should notice nothing except speed. Before changing any code, I wrote a short spec of every URL, title, meta tag and behavior to keep, took baseline screenshots of the live site at phone and desktop widths in light and dark mode, and wrote a route checker that validates every page, canonical URL, share tag, post date and RSS item after each build: 209 checks by the end.
 
-## Why Astro?
+I paired with [Claude Code](https://claude.com/claude-code) for the port. With a spec and automated checks in place, every step could be verified against production rather than eyeballed.
 
-I sat in on Astro talks at [Web Unleashed 2024](/posts/notes-and-takeaways-from-web-unleashed-2024), and the pitch has stuck with me since: render everything to plain HTML at build time, and don't send the browser any JavaScript unless a page actually asks for it.
+## A few things I noticed
 
-It's the [rule of least power](https://www.w3.org/2001/tag/doc/leastPower.html) applied to a whole framework. My blog is words and a few photos. It doesn't need to be an application. It just needs to be a website that shows up quickly and gets out of the way.
-
-## Grading my 2022 homework
-
-The original post listed what I wanted from my blog tooling. Let's see how Past Victor's requirements hold up:
-
-- **Write posts in Markdown.** ✅ Still `.mdx` files, now in a [content collection](https://docs.astro.build/en/guides/content-collections/) with a typed schema, so a typo in a post's date breaks the build instead of quietly shipping.
-- **Run React & TypeScript code samples in the browser.** Number of posts that ever did this: zero. It was a feature I kept around the way you keep a drawer of cables: just in case. If a post ever needs it, Astro can hydrate just that one component instead of the whole page.
-- **Full control over my CSS.** ✅ My stylesheet came over untouched. (Remember that foreshadowing? Hold that thought.)
-- **Static generation.** ✅ Every page is HTML built ahead of time. Very static. Extremely generated.
-
-## Change everything so that nothing changes
-
-I didn't want a redesign. I wanted to swap the engine while the car was parked and have nobody notice. Same URLs, same look, same everything, just faster.
-
-The only way I know to promise "nothing changed" with a straight face is to measure first. So before I touched any code:
-
-1. **I wrote a short spec** listing every URL, title, meta tag and behavior the new site had to keep.
-2. **I screenshotted the live site** at phone and desktop widths, in light and dark mode, as the "before" photos.
-3. **I wrote a route checker** that runs after every build and inspects every page, canonical URL, share tag, post date, tag link and RSS item. By the end it had grown to 209 checks. It's very thorough and has no chill.
-
-I paired with [Claude Code](https://claude.com/claude-code), an AI coding assistant, for the port. It's tireless and very enthusiastic about checklists, which turned out to be exactly the right personality for "change everything, verify nothing broke."
-
-## Things that tried to change anyway
-
-Despite my best efforts, the new site kept trying to have opinions.
-
-### It wanted to lowercase my capital I
-
-One of my old posts lives at `/posts/how-I-setup-my-developer-blog`, capital I and all. Astro generates each post's URL from its filename and lowercases it by default, so it was about to quietly become `/posts/how-i-setup-…` and break every link to it. A one-line override in `src/content.config.ts` keeps the filename exactly as I wrote it:
+**Collection IDs are lowercased.** Astro derives each post's URL from its filename and lowercases it by default, which would have turned `/posts/how-I-setup-my-developer-blog` into `/posts/how-i-setup-…`. A custom `generateId` in `src/content.config.ts` keeps filenames as written:
 
 ```js
-loader: glob({
-	pattern: '*.mdx',
-	base: './src/content/posts',
-	generateId: ({ entry }) => entry.replace(/\.mdx$/, ''),
-}),
+generateId: ({ entry }) => entry.replace(/\.mdx$/, ''),
 ```
 
-The I stays. The I was always going to stay.
+**Smart punctuation is on by default.** Astro 7 converts straight quotes to curly ones and double hyphens to dashes, which would have rewritten `--primary-hue` in my [CSS custom properties post](/posts/css-custom-properties-the-future-is-now-and-its-looking-pretty-colorful). One option turns it off.
 
-### It wanted to fix my punctuation
+**Trailing slashes take configuration.** Keeping `/posts` rather than `/posts/` took `trailingSlash: 'never'` and `build.format: 'file'` in Astro, plus a redirect rule on the host.
 
-Astro 7 turns on smart punctuation by default: straight quotes become curly quotes, and double hyphens become dashes. Typographically lovely! Except my [CSS custom properties post](/posts/css-custom-properties-the-future-is-now-and-its-looking-pretty-colorful) talks about `--primary-hue`, and turning that into a dash is, technically speaking, a crime. Off it goes, in `astro.config.mjs`:
+**Nextra's styles were layered over mine.** Comparing computed styles between the old and new sites showed that much of the typography came from Nextra's Tailwind Typography `prose` classes, whose selectors take precedence over plain element rules. To keep the look identical, I carried over Nextra's compiled CSS in its original cascade order, alongside my own stylesheet.
 
-```js
-markdown: {
-	processor: satteri({ features: { smartPunctuation: false } }),
-},
-```
+## Performance
 
-### It wanted to add trailing slashes
+A few ideas from Harry Roberts' Web Unleashed workshop shaped this part:
 
-My URLs don't end in `/`, and I'd like them to keep not doing that. That took two Astro settings (`trailingSlash: 'never'` and `build.format: 'file'`) plus `cleanUrls` on Vercel. Now `/posts/` still politely redirects to `/posts`, just like it always did.
+- **Fonts:** swapping in web fonts from Google caused a layout shift (CLS 0.366 on the About page). Astro's [Fonts API](https://docs.astro.build/en/guides/fonts/) now self-hosts and preloads them with size-matched fallbacks, and CLS is 0.
+- **Images:** the photos page serves responsive WebP. The first image loads eagerly with `fetchpriority="high"` and the rest are lazy-loaded.
+- **JavaScript:** only a small dark-mode toggle and analytics remain.
 
-### My stylesheet had been doing roughly nothing
+Along the way I also moved to GA4, added a default share image, pointed canonical URLs at `www`, made RSS links absolute, added meta descriptions, and pre-rendered the tag pages.
 
-Here's where the foreshadowing pays off.
+## Results
 
-To make sure the new site really looked the same, I compared the computed styles of the same elements on the old and new sites. The first pass found **302 differences**. For a site that was supposed to look identical, that's a lot of differences.
-
-It turns out most of the old site's typography wasn't coming from my stylesheet at all. It was coming from Nextra's Tailwind Typography `prose` classes, whose selectors quietly outranked the rules I'd written. My carefully tuned heading sizes had been losing that argument, silently, for years.
-
-So I didn't guess. I carried over Nextra's compiled CSS, kept it in the same order it used to load, and the differences dropped to a handful of intentional ones. My stylesheet is still there. It's just finally honest about how much it's doing.
-
-## Harry would be proud (probably)
-
-At Web Unleashed, Harry Roberts' performance workshop gave me a list of things I promptly didn't do on my own site. This time I did some of them:
-
-- **Fonts.** Loading Open Sans and Vollkorn from Google made the About page do a little shimmy when they swapped in, a layout shift score of **0.366**, which is firmly in "poor" territory. Astro's [Fonts API](https://docs.astro.build/en/guides/fonts/) now hosts them with the site, preloads them, and sets up fallback fonts sized to match. No more shimmy: **0**.
-- **Images.** The photos page now serves responsive WebP images. The first photo loads right away with `fetchpriority="high"`, and the rest wait until you scroll to them, because lazy-loading the image you see first is a classic own goal.
-- **JavaScript.** What's left is a tiny dark-mode toggle and analytics. That's the list.
-
-## Fixes I found in the couch cushions
-
-While I was in there, I tidied up a few things that had been quietly broken:
-
-- Swapped the analytics-into-the-void tag for **GA4**, which loads only on the real site
-- Added an actual **share image**, so previews show something again
-- Pointed **canonical URLs** at `www`, the address that actually serves the site
-- Made **RSS links** full URLs, so feed readers can follow them
-- Gave every page a **meta description**
-- Made **tag pages** real HTML, instead of pages that filled themselves in with JavaScript after they loaded
-
-## The numbers
-
-Lighthouse, mobile, before and after:
+Lighthouse, mobile:
 
 | Page   | Performance  | Largest Contentful Paint | Page weight         |
 | ------ | ------------ | ------------------------ | ------------------- |
 | About  | 71 → **100** | 5.3 s → **1.2 s**        | 416 → **243 KiB**   |
 | Photos | 75 → **97**  | 13.3 s → **2.6 s**       | 2,423 → **914 KiB** |
 
-Accessibility stayed at 100, and SEO went from 91 to **100**. Most of what's left on the About page is the analytics script, which is a very funny thing to be the heaviest part of a page about me.
+Accessibility stayed at 100 and SEO went from 91 to 100. These are lab numbers; real-user data is what I'll watch next.
 
-And yes, Harry, I know: these are lab numbers. Real-user data is next on the list. I'll get to it. Eventually. Reliably.
+## What's next
 
-## Summary
-
-We've discussed how I rebuilt my blog with Astro:
-
-- **Static by default:** every page is plain HTML built ahead of time, with no JavaScript unless a page genuinely needs it.
-- **A straight port:** same URLs, same look, checked against the old site with before-and-after screenshots and a very thorough route checker.
-- **Faster, and fixed:** self-hosted fonts, lighter images and less JavaScript took Lighthouse performance to 97–100, and a few long-broken things finally work.
-
-Maybe I'll try [11ty](https://www.11ty.dev/) next time. If I do, I'll be sure to provide an update! Give me about four years and eight months.
+Moving hosts. Because the site is now just static files, that's mostly redirect configuration and DNS, and it'll get its own short update. Sooner than four years this time.
