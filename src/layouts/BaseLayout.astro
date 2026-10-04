@@ -27,16 +27,18 @@ const { title, heading = title, description, summary, image } = Astro.props.fron
 		<Head title={title} description={description || summary} image={image} />
 	</head>
 	<body>
-		<article class='page'>
-			<h1>{heading}</h1>
-			<slot name='header'>
-				<div class='page-header'>
-					<Nav />
-					<ThemeToggle />
-				</div>
-			</slot>
-			<slot />
-			<footer></footer>
-		</article>
+		<main>
+			<article class='page'>
+				<h1>{heading}</h1>
+				<slot name='header'>
+					<div class='page-header'>
+						<Nav />
+						<ThemeToggle />
+					</div>
+				</slot>
+				<slot />
+				<footer></footer>
+			</article>
+		</main>
 	</body>
 </html>
