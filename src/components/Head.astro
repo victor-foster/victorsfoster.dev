@@ -42,6 +42,16 @@ const ogImage = image ? new URL(image, Astro.site).href : new URL('/og-image.png
 <meta name='description' content={description} />
 <link rel='canonical' href={canonicalUrl} />
 <link rel='alternate' type='application/rss+xml' title='RSS' href='/feed.xml' />
+<!--
+	IndieWeb, as on ryanmulligan.dev: rel-me ties the site to its profiles (IndieLogin, webmention.io, Mastodon verify
+	against these), and webmention.io receives mentions and pingbacks for www.victorfoster.dev.
+	https://indieweb.org/rel-me https://indieweb.org/Webmention
+-->
+<link rel='me' href='https://github.com/victor-foster' />
+<link rel='me' href='https://www.linkedin.com/in/victorfoster' />
+<link rel='me' href='https://www.goodreads.com/user/show/15829762-victor-foster' />
+<link rel='webmention' href='https://webmention.io/www.victorfoster.dev/webmention' />
+<link rel='pingback' href='https://webmention.io/www.victorfoster.dev/xmlrpc' />
 
 <meta property='og:type' content='website' />
 <meta property='og:url' content={canonicalUrl} />
