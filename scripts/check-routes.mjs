@@ -8,7 +8,7 @@ const SITE = 'https://www.victorfoster.dev';
 const DIST = new URL('../dist/', import.meta.url);
 const DEFAULT_DESCRIPTION = 'Victor Foster - UI Engineer';
 const DEFAULT_IMAGE = `${SITE}/og-image.png`;
-// IndieWeb head links on every page, as on ryanmulligan.dev (see src/components/Head.astro)
+// IndieWeb head links on every page (see src/components/Head.astro)
 const REL_ME = [
 	'https://github.com/victor-foster',
 	'https://www.linkedin.com/in/victorfoster',
