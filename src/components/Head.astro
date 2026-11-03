@@ -3,14 +3,13 @@
 import { Font } from 'astro:assets';
 import Analytics from './Analytics.astro';
 import { pagePath } from '../lib/path';
+import { SITE_NAME } from '../lib/site';
 
 interface Props {
 	title: string;
 	description?: string;
 	image?: string;
 }
-
-const SITE_NAME = 'Victor Foster - UI Engineer';
 
 const { title, image } = Astro.props;
 const description = Astro.props.description || SITE_NAME;
