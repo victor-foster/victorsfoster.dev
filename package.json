@@ -16,7 +16,8 @@
 		"@astrojs/rss": "^4.0.19",
 		"astro": "^7.3.5",
 		"sanitize.css": "^13.0.0",
-		"sass": "^1.54.8"
+		"sass": "^1.54.8",
+		"ultrahtml": "^1.7.0"
 	},
 	"devDependencies": {
 		"@astrojs/check": "^0.9.10",

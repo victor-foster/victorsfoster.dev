@@ -141,6 +141,11 @@ for (const page of PAGES) {
 			.map((a) => a.href);
 	const sameList = (a, b) => JSON.stringify(a) === JSON.stringify(b);
 	check(route, sameList(relHrefs('me'), REL_ME), `rel="me" links are ${JSON.stringify(relHrefs('me'))}`);
+	check(
+		route,
+		tags(html, 'a').some((a) => a.href === '/feed.xml'),
+		'missing RSS link',
+	);
 	for (const [rel, href] of Object.entries(WEBMENTION_LINKS)) {
 		check(route, sameList(relHrefs(rel), [href]), `rel="${rel}" links are ${JSON.stringify(relHrefs(rel))}`);
 	}
@@ -241,20 +246,31 @@ check('/feed.xml', existsSync(feedFile), 'missing dist/feed.xml');
 if (existsSync(feedFile)) {
 	const feed = readFileSync(feedFile, 'utf8');
 	check('/feed.xml', /^<\?xml[^>]*>\s*<rss\b[\s\S]*<\/rss>\s*$/.test(feed), 'not an <rss> document');
+	const channel = feed.match(/<channel>([\s\S]*?)<item>/)?.[1] ?? '';
+	const channelDescription = channel.match(/<description>([^<]*)<\/description>/)?.[1];
+	check('/feed.xml', channelDescription === DEFAULT_DESCRIPTION, `channel <description> is ${channelDescription}`);
 	const items = [...feed.matchAll(/<item>([\s\S]*?)<\/item>/g)].map((m) => ({
 		link: m[1].match(/<link>([^<]+)<\/link>/)?.[1],
 		guid: m[1].match(/<guid\b[^>]*>([^<]+)<\/guid>/)?.[1],
+		content: decode(m[1].match(/<content:encoded>([\s\S]*?)<\/content:encoded>/)?.[1] ?? ''),
 	}));
 	check(
 		'/feed.xml',
 		items.every((i) => i.guid === i.link),
 		'item <guid> differs from <link>',
 	);
-	const links = items.map((i) => i.link).sort();
-	const expected = Object.values(POSTS)
-		.map((slug) => `${SITE}/posts/${slug}`)
-		.sort();
+	// Newest first, like /posts
+	const links = items.map((i) => i.link);
+	const expected = NEWEST_FIRST.map((route) => `${SITE}${route}`);
 	check('/feed.xml', JSON.stringify(links) === JSON.stringify(expected), `item links are ${JSON.stringify(links)}`);
+	// Full post HTML, without markup that needs the site's CSS, and with absolute URLs
+	for (const { link, content } of items) {
+		const where = `/feed.xml ${link?.replace(SITE, '')}`;
+		check(where, /<p>/.test(content), 'missing full post <content:encoded>');
+		check(where, !/sr-only|subheading-anchor/.test(content), 'content has sr-only labels or section anchors');
+		check(where, !/\sstyle="/.test(content), 'content has inline styles');
+		check(where, !/(href|src)="[/#]/.test(content), 'content has a relative URL');
+	}
 }
 
 if (failures.length) {
